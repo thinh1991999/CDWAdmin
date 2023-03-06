@@ -1,31 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import {Customer, Employee} from '../models';
+import { Customer, User } from '../models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TablesService {
-  public loadEmployeeTableData(): Observable<Employee[]> {
+  public loadEmployeeTableData(): Observable<User[]> {
     return of([
-      {name: 'Joe James', company: 'Example Inc.', city: 'Yonkers', state: 'NY'},
-      {name: 'John Walsh', company: 'Example Inc.', city: 'Hartford', state: 'CT'},
-      {name: 'Bob Herm', company: 'Example Inc.', city: 'Tampa', state: 'FL'},
-      {name: 'James Houston', company: 'Example Inc.', city: 'Dallas', state: 'TX'},
-      {name: 'Prabhakar Linwood', company: 'Example Inc.', city: 'Hartford', state: 'CT'},
-      {name: 'Kaui Ignace', company: 'Example Inc.', city: 'Yonkers', state: 'NY'},
-      {name: 'Esperanza Susanne', company: 'Example Inc.', city: 'Hartford', state: 'CT'},
-      {name: 'Christian Birgitte', company: 'Example Inc.', city: 'Tampa', state: 'FL'},
-      {name: 'Meral Elias', company: 'Example Inc.', city: 'Hartford', state: 'CT'},
-      {name: 'Deep Pau', company: 'Example Inc.', city: 'Yonkers', state: 'NY'},
-      {name: 'Sebastiana Hani', company: 'Example Inc.', city: 'Dallas', state: 'TX'},
-      {name: 'Marciano Oihana', company: 'Example Inc.', city: 'Yonkers', state: 'NY'},
-      {name: 'Brigid Ankur', company: 'Example Inc.', city: 'Dallas', state: 'TX'},
-      {name: 'Anna Siranush', company: 'Example Inc.', city: 'Yonkers', state: 'NY'},
-      {name: 'Avram Sylva', company: 'Example Inc.', city: 'Hartford', state: 'CT'},
-      {name: 'Serafima Babatunde', company: 'Example Inc.', city: 'Tampa', state: 'FL'},
-      {name: 'Gaston Festus', company: 'Example Inc.', city: 'Tampa', state: 'FL'}
+      {
+        id: 'abc',
+        avatar: 'string',
+        name: 'nguyen van A',
+        email: 'thinh@gmail.com',
+        phone: '099999999999',
+        bio: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente consequatur nihil, illo ab, nemo et quos, temporibus maiores architecto dignissimos id aut voluptates nisi ipsa voluptas quo. Fugiat, quo.',
+      },
     ]);
   }
 
@@ -38,7 +29,7 @@ export class TablesService {
         price: '$25 224.2',
         date: '11 May 2017',
         city: 'Otsego',
-        status: 'send'
+        status: 'send',
       },
       {
         name: 'Jacob Thornton',
@@ -47,7 +38,7 @@ export class TablesService {
         price: '$1 254.2',
         date: '4 Jun 2017',
         city: 'Fivepointville',
-        status: 'send'
+        status: 'send',
       },
       {
         name: 'Larry the Bird',
@@ -56,7 +47,7 @@ export class TablesService {
         price: '$1 570.0',
         date: '27 Aug 2017',
         city: 'Leadville North',
-        status: 'pending'
+        status: 'pending',
       },
       {
         name: 'Joseph May',
@@ -65,17 +56,17 @@ export class TablesService {
         price: '$5 224.5',
         date: '19 Feb 2018',
         city: 'Seaforth',
-        status: 'declined'
+        status: 'declined',
       },
       {
         name: 'Peter Horadnia',
         email: 'horadnia@wxample.com',
-        product: 'Let\'s Dance',
+        product: "Let's Dance",
         price: '$43 594.7',
         date: '1 Mar 2018',
         city: 'Hanoverton',
-        status: 'send'
-      }
+        status: 'send',
+      },
     ]);
   }
 }

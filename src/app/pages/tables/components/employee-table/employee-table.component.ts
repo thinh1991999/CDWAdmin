@@ -3,25 +3,35 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 
-import { Employee } from '../../models/employee';
+import { User } from '../../models/user';
+import { MatDialog } from '@angular/material/dialog';
+import { DetailUpdateComponent } from '../detail-update/detail-update.component';
 
 @Component({
   selector: 'app-employee-table',
   templateUrl: './employee-table.component.html',
-  styleUrls: ['./employee-table.component.scss']
+  styleUrls: ['./employee-table.component.scss'],
 })
 export class EmployeeTableComponent implements OnInit {
-  @Input() employeeTableData: Employee[];
-  public displayedColumns: string[] = ['select', 'name', 'company', 'city', 'state'];
-  public dataSource: MatTableDataSource<Employee>;
-  public selection = new SelectionModel<Employee>(true, []);
+  @Input() employeeTableData: User[];
+  public displayedColumns: string[] = [
+    'select',
+    'avatar',
+    'name',
+    'email',
+    'phone',
+    'bio',
+    'actions',
+  ];
+  public dataSource: MatTableDataSource<User>;
+  public selection = new SelectionModel<User>(true, []);
 
   public isShowFilterInput = false;
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  constructor(public modal: MatDialog) {}
   public ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<Employee>(this.employeeTableData);
+    this.dataSource = new MatTableDataSource<User>(this.employeeTableData);
 
     this.dataSource.paginator = this.paginator;
   }
@@ -35,9 +45,9 @@ export class EmployeeTableComponent implements OnInit {
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
 
   /** The label for the checkbox on the passed row */
@@ -45,7 +55,9 @@ export class EmployeeTableComponent implements OnInit {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+      row.position + 1
+    }`;
   }
 
   public applyFilter(event: Event): void {
@@ -55,6 +67,12 @@ export class EmployeeTableComponent implements OnInit {
 
   public showFilterInput(): void {
     this.isShowFilterInput = !this.isShowFilterInput;
-    this.dataSource = new MatTableDataSource<Employee>(this.employeeTableData);
+    this.dataSource = new MatTableDataSource<User>(this.employeeTableData);
+  }
+
+  handleDetail(id: string) {
+    this.modal.open(DetailUpdateComponent, {
+      data: { id },
+    });
   }
 }

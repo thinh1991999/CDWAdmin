@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
@@ -9,18 +9,20 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { TablesPageComponent } from './containers';
 import { TablesRoutingModule } from './tables-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { EmployeeTableComponent, MaterialTableComponent } from './components';
+import { EmployeeTableComponent } from './components';
 import { TablesService } from './services';
+import { DetailUpdateComponent } from './components/detail-update/detail-update.component';
 
 @NgModule({
   declarations: [
     TablesPageComponent,
-    MaterialTableComponent,
-    EmployeeTableComponent
+    EmployeeTableComponent,
+    DetailUpdateComponent,
   ],
   imports: [
     CommonModule,
@@ -34,10 +36,9 @@ import { TablesService } from './services';
     MatToolbarModule,
     MatPaginatorModule,
     MatFormFieldModule,
-    SharedModule
+    SharedModule,
+    MatDialogModule,
   ],
-  providers: [
-    TablesService
-  ]
+  providers: [TablesService],
 })
-export class TablesModule { }
+export class TablesModule {}
