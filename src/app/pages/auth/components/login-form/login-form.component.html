@@ -1,14 +1,33 @@
 <form class="form" [formGroup]="form" (ngSubmit)="login()">
   <mat-form-field class="form__input">
-    <input matInput placeholder="Email Address" type="email" formControlName="email">
+    <input
+      matInput
+      placeholder="Email Address"
+      type="email"
+      formControlName="email"
+    />
   </mat-form-field>
 
   <mat-form-field class="form__input">
-    <input matInput placeholder="Password" type="password" formControlName="password">
+    <input
+      matInput
+      placeholder="Password"
+      type="password"
+      formControlName="password"
+    />
   </mat-form-field>
-
+  <mat-error *ngIf="errMess !== ''">{{ errMess }}</mat-error>
   <div class="form-actions">
-    <button class="form-actions__login" mat-raised-button color="primary" type="submit">Login</button>
+    <button
+      *ngIf="!loading"
+      class="form-actions__login btn btn-primary"
+      type="submit"
+    >
+      Login
+    </button>
+    <button *ngIf="loading" class="btn btn-primary btn-loading" type="button">
+      <mat-spinner [diameter]="15" [color]="'warn'"></mat-spinner>
+    </button>
     <button class="form-actions__forget" mat-button>Forget password</button>
   </div>
 </form>

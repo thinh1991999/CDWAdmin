@@ -1,14 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { User } from '../models';
+import axios from 'axios';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  public login(): void {
-    localStorage.setItem('token', 'token');
+  private readonly _user = new BehaviorSubject<User | null>(null);
+  readonly _user$ = this._user.asObservable();
+  private axios = axios.create({
+    baseURL: 'http://localhost:8000',
+  });
+  private baseURl: string = 'http://localhost:8000';
+  constructor(private httpClient: HttpClient) {}
+  public login(data: { email: string; password: string }): Promise<User> {
+    return this.axios.post('/admin/login', data);
   }
 
   public sign(): void {
@@ -22,7 +30,7 @@ export class AuthService {
   public getUser(): Observable<User> {
     return of({
       name: 'John',
-      lastName: 'Smith'
+      lastName: 'Smith',
     });
   }
 }

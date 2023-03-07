@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AuthPageComponent } from './containers';
@@ -17,7 +19,7 @@ import { AuthGuard } from './guards';
     AuthPageComponent,
     YearPipe,
     LoginFormComponent,
-    SignFormComponent
+    SignFormComponent,
   ],
   imports: [
     CommonModule,
@@ -26,12 +28,9 @@ import { AuthGuard } from './guards';
     MatButtonModule,
     MatInputModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatProgressSpinnerModule,
   ],
-  providers: [
-    AuthService,
-    EmailService,
-    AuthGuard
-  ]
+  providers: [AuthService, EmailService, AuthGuard],
 })
-export class AuthModule { }
+export class AuthModule {}
