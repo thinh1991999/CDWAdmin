@@ -1,0 +1,14 @@
+<app-layout>
+  <mat-toolbar class="page-header" role="heading">
+    <h1>Rooms management</h1>
+    <button mat-raised-button color="primary" (click)="openAddModal()">
+      Add room
+    </button>
+  </mat-toolbar>
+
+  <div class="tables-wrapper">
+    <app-rooms-table [roomTableData]="roomTableData$ | async"></app-rooms-table>
+    <!-- <app-material-table [materialTableDate]="materialTableData$ | async"></app-material-table> -->
+  </div>
+  <app-footer></app-footer>
+</app-layout>

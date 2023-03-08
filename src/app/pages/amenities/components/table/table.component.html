@@ -1,0 +1,148 @@
+<mat-card class="employee-table-wrapper">
+  <mat-card-title class="employee-table-wrapper__header">
+    <p *ngIf="!isShowFilterInput" class="employee-table-wrapper__title">
+      Amenity List
+    </p>
+    <div *ngIf="isShowFilterInput" class="employee-table-wrapper__search">
+      <div class="employee-table-wrapper__icon-wrapper">
+        <mat-icon class="employee-table-wrapper__icon">search</mat-icon>
+      </div>
+      <input
+        matInput
+        class="employee-table-wrapper__search-input"
+        (keyup)="applyFilter($event)"
+      />
+      <button
+        class="employee-table-wrapper__button"
+        mat-mini-fab
+        (click)="showFilterInput()"
+      >
+        <mat-icon class="employee-table-wrapper__icon">close</mat-icon>
+      </button>
+    </div>
+    <button
+      class="employee-table-wrapper__button"
+      mat-mini-fab
+      (click)="showFilterInput()"
+    >
+      <mat-icon class="employee-table-wrapper__icon">search</mat-icon>
+    </button>
+  </mat-card-title>
+  <mat-card-content class="employee-table__content">
+    <table class="employee-table__table" mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="select">
+        <th
+          class="employee-table__table-checkbox"
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          <mat-checkbox
+            color="primary"
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [aria-label]="checkboxLabel()"
+          >
+          </mat-checkbox>
+        </th>
+        <td
+          class="employee-table__table-checkbox"
+          mat-cell
+          *matCellDef="let row"
+        >
+          <mat-checkbox
+            color="primary"
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+            [aria-label]="checkboxLabel(row)"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th
+          class="employee-table__table-header"
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          Name
+        </th>
+        <td
+          class="employee-table__table-body"
+          mat-cell
+          *matCellDef="let element"
+        >
+          {{ element.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="icon_url">
+        <th
+          class="employee-table__table-header"
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          icon_url
+        </th>
+        <td
+          class="employee-table__table-body"
+          mat-cell
+          *matCellDef="let element"
+        >
+          <img [src]="element.icon_url" alt="" />
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th
+          class="employee-table__table-header"
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          Description
+        </th>
+        <td
+          class="employee-table__table-body"
+          mat-cell
+          *matCellDef="let element"
+        >
+          {{ element.description }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th
+          class="employee-table__table-header"
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          Actions
+        </th>
+        <td
+          class="employee-table__table-body"
+          mat-cell
+          *matCellDef="let element"
+        >
+          <div class="btn-group">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="handleDetail(element.id)"
+            >
+              Detail
+            </button>
+            <button mat-raised-button color="accent">Update</button>
+            <button mat-raised-button color="warn">Delete</button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+  <div class="pagination">
+    <mat-paginator
+      [pageSizeOptions]="[10, 15, 100]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</mat-card>

@@ -1,6 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/services/global.service';
 import { AuthService } from '../../services';
+import { routes } from '../../../../consts';
 
 @Component({
   selector: 'app-login-form',
@@ -14,8 +17,13 @@ export class LoginFormComponent implements OnInit {
   public flatlogicPassword = '';
   public errMess: string = '';
   loading: boolean = false;
+  public routers: typeof routes = routes;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private globalService: GlobalService,
+    private router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.form = new FormGroup({
@@ -25,6 +33,9 @@ export class LoginFormComponent implements OnInit {
       ]),
       password: new FormControl(this.flatlogicPassword, [Validators.required]),
     });
+    for (let i in this.form.controls) {
+      console.log(this.form.controls[i]);
+    }
   }
 
   public login(): void {
@@ -33,17 +44,22 @@ export class LoginFormComponent implements OnInit {
       this.authService
         .login(this.form.value)
         .then((res) => {
-          console.log(res);
-
+          const { user, token } = res.data;
+          this.globalService.login(user, token);
+          this.router.navigate([this.routers.DASHBOARD]).then();
           this.loading = false;
         })
         .catch((err) => {
-          console.log(err);
-          this.errMess = err.message;
+          this.errMess =
+            err.response.data.error || 'Something error, try again';
           this.loading = false;
         });
     } else {
       this.errMess = 'Something error, try again.';
     }
+  }
+
+  hideMess() {
+    this.errMess = '';
   }
 }

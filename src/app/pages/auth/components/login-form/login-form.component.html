@@ -5,6 +5,7 @@
       placeholder="Email Address"
       type="email"
       formControlName="email"
+      (focus)="hideMess()"
     />
   </mat-form-field>
 
@@ -14,6 +15,7 @@
       placeholder="Password"
       type="password"
       formControlName="password"
+      (focus)="hideMess()"
     />
   </mat-form-field>
   <mat-error *ngIf="errMess !== ''">{{ errMess }}</mat-error>

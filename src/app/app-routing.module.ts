@@ -1,63 +1,86 @@
-import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { DashboardPageComponent } from './pages/dashboard/containers';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import {AuthGuard} from './pages/auth/guards';
+import { AuthGuard } from './pages/auth/guards';
 
 const routes: Routes = [
   {
     path: 'dashboard',
     pathMatch: 'full',
     canActivate: [AuthGuard],
-    component: DashboardPageComponent
+    component: DashboardPageComponent,
   },
   {
     path: 'typography',
     pathMatch: 'full',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./pages/typography/typography.module').then(m => m.TypographyModule)
+    loadChildren: () =>
+      import('./pages/typography/typography.module').then(
+        (m) => m.TypographyModule
+      ),
   },
   {
     path: 'tables',
     pathMatch: 'full',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./pages/tables/tables.module').then(m => m.TablesModule)
+    loadChildren: () =>
+      import('./pages/tables/tables.module').then((m) => m.TablesModule),
+  },
+  {
+    path: 'rooms',
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./pages/rooms/rooms.module').then((m) => m.TablesModule),
+  },
+  {
+    path: 'amenities',
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./pages/amenities/amenities.module').then((m) => m.TablesModule),
   },
   {
     path: 'notification',
     pathMatch: 'full',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./pages/notification/notification.module').then(m => m.NotificationModule)
+    loadChildren: () =>
+      import('./pages/notification/notification.module').then(
+        (m) => m.NotificationModule
+      ),
   },
   {
     path: 'ui',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./pages/ui-elements/ui-elements.module').then(m => m.UiElementsModule)
+    loadChildren: () =>
+      import('./pages/ui-elements/ui-elements.module').then(
+        (m) => m.UiElementsModule
+      ),
   },
   {
     path: '404',
-    component: NotFoundComponent
+    component: NotFoundComponent,
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule)
+    loadChildren: () =>
+      import('./pages/auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: '**',
-    redirectTo: '404'
-  }
+    redirectTo: '404',
+  },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-    useHash: true,
-    preloadingStrategy: PreloadAllModules,
-    relativeLinkResolution: 'legacy'
-})
+      useHash: true,
+      preloadingStrategy: PreloadAllModules,
+      relativeLinkResolution: 'legacy',
+    }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

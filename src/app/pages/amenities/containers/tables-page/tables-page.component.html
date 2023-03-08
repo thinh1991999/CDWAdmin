@@ -1,0 +1,14 @@
+<app-layout>
+  <mat-toolbar class="page-header" role="heading">
+    <h1>Amenities management</h1>
+    <button mat-raised-button color="primary" (click)="openAddModal()">
+      Add amenity
+    </button>
+  </mat-toolbar>
+
+  <div class="tables-wrapper">
+    <app-table [amenityTableData]="amenityTableData$"></app-table>
+    <!-- <app-material-table [materialTableDate]="materialTableData$ | async"></app-material-table> -->
+  </div>
+  <app-footer></app-footer>
+</app-layout>

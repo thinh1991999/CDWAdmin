@@ -1,0 +1,27 @@
+<form class="form" [formGroup]="form" (ngSubmit)="add()">
+  <h2>Add amenity</h2>
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Icon</mat-label>
+    <input type="file" matInput />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea matInput></textarea>
+  </mat-form-field>
+  <div class="form-actions">
+    <button
+      *ngIf="!loading"
+      class="form-actions__login btn btn-primary"
+      type="submit"
+    >
+      Add
+    </button>
+    <button *ngIf="loading" class="btn btn-primary btn-loading" type="button">
+      <mat-spinner [diameter]="15" [color]="'warn'"></mat-spinner>
+    </button>
+  </div>
+</form>
