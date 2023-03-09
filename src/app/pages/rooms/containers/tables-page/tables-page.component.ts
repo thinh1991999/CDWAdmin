@@ -1,51 +1,58 @@
 import { Component, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TablesService } from '../../services';
-import { Customer, Room } from '../../models';
+import { Room } from '../../models';
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { AddComponent } from '../../components/add/add.component';
+import { Amenity } from 'src/app/pages/amenities/models';
+import { Category } from 'src/app/pages/categories/models';
 export interface DialogData {
   animal: string;
   name: string;
 }
 @Component({
-  selector: 'app-tables-page',
+  selector: 'app-tables-category',
   templateUrl: './tables-page.component.html',
   styleUrls: ['./tables-page.component.scss'],
 })
 export class TablesPageComponent {
-  public roomTableData$: Observable<Room[]>;
-  // public materialTableData$: Observable<Customer[]>
-
+  public amenityTableData$: Room[] = [];
+  amenities: Amenity[] = [];
+  categories: Category[] = [];
+  loading: boolean = false;
   constructor(private service: TablesService, public addUsermodal: MatDialog) {
-    this.roomTableData$ = service.loadEmployeeTableData();
-    // this.materialTableData$ = service.loadMaterialTableData();
+    this.reload();
   }
+
   openAddModal(): void {
-    // const dialogRef = this.addUsermodal.open(AddUserComponent, {
-    //   width: '250px',
-    //   // data: {name: this.name, animal: this.animal}
-    // });
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   console.log('The dialog was closed');
-    // });
+    const dialogRef = this.addUsermodal.open(AddComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
+  }
+  reload() {
+    this.loading = true;
+    this.service
+      .getRooms()
+      .then((res) => {
+        this.amenityTableData$ = res.data.rooms;
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.amenityTableData$ = [];
+        this.loading = false;
+      });
+  }
+  handleRefresh() {
+    this.reload();
+  }
+  trigger(status: boolean) {
+    if (status) {
+      this.reload();
+    }
   }
 }
-
-// @Component({
-//   selector: 'add-user.component',
-//   templateUrl: 'add-user.component.html',
-// })
-// export class AddUserComponent {
-//   constructor(
-//     public ref: MatDialogRef<AddUserComponent>,
-//     @Inject(MAT_DIALOG_DATA) public data: DialogData
-//   ) {}
-
-//   onNoClick(): void {
-//     this.ref.close();
-//   }
-// }

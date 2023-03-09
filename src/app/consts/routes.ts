@@ -4,6 +4,7 @@ export enum routes {
   TABLES = '/tables',
   ROOMS = '/rooms',
   AMENITIES = '/amenities',
+  CATEGORIES = '/categories',
   NOTIFICATION = '/notification',
   UI_ELEMENTS_ICONS = '/ui/icons',
   UI_ELEMENTS_CHARTS = '/ui/charts',

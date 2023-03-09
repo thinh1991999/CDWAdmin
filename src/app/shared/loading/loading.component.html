@@ -1,0 +1,18 @@
+<div
+  class="lds-dual-ring"
+  [ngStyle]="{
+    width: size + 'px',
+    height: size + 'px'
+  }"
+>
+  <div
+    class="ring"
+    [ngStyle]="{
+      width: (size * 4) / 5 + 'px',
+      height: (size * 4) / 5 + 'px',
+      margin: (size * 1) / 10 + 'px',
+      borderWidth: (size * 1) / 15 + 'px'
+    }"
+    [ngClass]="{ 'ring-black': black }"
+  ></div>
+</div>

@@ -6,6 +6,13 @@ import { AuthGuard } from './pages/auth/guards';
 
 const routes: Routes = [
   {
+    path: 'amenities',
+    pathMatch: 'full',
+    // canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./pages/amenities/amenities.module').then((m) => m.TablesModule),
+  },
+  {
     path: 'dashboard',
     pathMatch: 'full',
     canActivate: [AuthGuard],
@@ -34,12 +41,21 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/rooms/rooms.module').then((m) => m.TablesModule),
   },
+  // {
+  //   path: 'amenities',
+  //   pathMatch: 'full',
+  //   // canActivate: [AuthGuard],
+  //   loadChildren: () =>
+  //     import('./pages/amenities/amenities.module').then((m) => m.TablesModule),
+  // },
   {
-    path: 'amenities',
+    path: 'categories',
     pathMatch: 'full',
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     loadChildren: () =>
-      import('./pages/amenities/amenities.module').then((m) => m.TablesModule),
+      import('./pages/categories/categories.module').then(
+        (m) => m.TablesModule
+      ),
   },
   {
     path: 'notification',

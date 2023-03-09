@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -50,7 +51,9 @@ import { AddComponent } from './components/add/add.component';
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     FormsModule,
+    MatInputModule,
   ],
+  exports: [TablesPageComponent],
   providers: [TablesService],
 })
 export class TablesModule {}

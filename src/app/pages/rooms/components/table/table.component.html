@@ -60,25 +60,6 @@
           </mat-checkbox>
         </td>
       </ng-container>
-      <ng-container matColumnDef="image">
-        <th
-          class="employee-table__table-header"
-          mat-header-cell
-          *matHeaderCellDef
-        >
-          Image
-        </th>
-        <td
-          class="employee-table__table-body"
-          mat-cell
-          *matCellDef="let element"
-        >
-          <img
-            src="https://th.bing.com/th/id/OIP.P3-9bKaVvL3ZofGHlnZRowHaFa?w=213&h=180&c=7&r=0&o=5&pid=1.7"
-            alt=""
-          />
-        </td>
-      </ng-container>
       <ng-container matColumnDef="title">
         <th
           class="employee-table__table-header"
@@ -95,7 +76,6 @@
           {{ element.title }}
         </td>
       </ng-container>
-
       <ng-container matColumnDef="description">
         <th
           class="employee-table__table-header"
@@ -118,7 +98,7 @@
           mat-header-cell
           *matHeaderCellDef
         >
-          PricePerNight
+          pricePerNight
         </th>
         <td
           class="employee-table__table-body"
@@ -128,20 +108,20 @@
           {{ element.pricePerNight }}
         </td>
       </ng-container>
-      <ng-container matColumnDef="owner">
+      <ng-container matColumnDef="images">
         <th
           class="employee-table__table-header"
           mat-header-cell
           *matHeaderCellDef
         >
-          Owner
+          images
         </th>
         <td
           class="employee-table__table-body"
           mat-cell
           *matCellDef="let element"
         >
-          <p>{{ element.owner }}</p>
+          {{ element.images }}
         </td>
       </ng-container>
       <ng-container matColumnDef="actions">
@@ -161,12 +141,18 @@
             <button
               mat-raised-button
               color="primary"
-              (click)="handleDetail(element.id)"
+              (click)="handleDetail(element._id)"
             >
               Detail
             </button>
             <button mat-raised-button color="accent">Update</button>
-            <button mat-raised-button color="warn">Delete</button>
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="handleDelete(element._id)"
+            >
+              Delete
+            </button>
           </div>
         </td>
       </ng-container>

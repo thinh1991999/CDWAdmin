@@ -7,7 +7,13 @@
   </mat-toolbar>
 
   <div class="tables-wrapper">
-    <app-table [amenityTableData]="amenityTableData$"></app-table>
+    <div class="loading">
+      <app-loading [size]="80" [black]="true"></app-loading>
+    </div>
+    <app-table
+      *ngIf="!loading"
+      [amenityTableData]="amenityTableData$"
+    ></app-table>
     <!-- <app-material-table [materialTableDate]="materialTableData$ | async"></app-material-table> -->
   </div>
   <app-footer></app-footer>

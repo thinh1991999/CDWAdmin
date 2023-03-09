@@ -1,41 +1,60 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  SimpleChanges,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 
 import { Room } from '../../models/room';
 import { MatDialog } from '@angular/material/dialog';
+import { SelectModalComponent } from 'src/app/shared/select-modal/select-modal.component';
+import { TablesService } from '../../services';
+import { ToastrService } from 'ngx-toastr';
 // import { DetailUpdateComponent } from '../detail-update/detail-update.component';
 
 @Component({
-  selector: 'app-rooms-table',
-  templateUrl: './rooms-table.component.html',
-  styleUrls: ['./rooms-table.component.scss'],
+  selector: 'app-table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss'],
 })
 export class RoomsTableComponent implements OnInit {
-  @Input() roomTableData: Room[];
+  @Input() amenityTableData: Room[];
+  @Output() triggerReload: EventEmitter<boolean> = new EventEmitter();
   public displayedColumns: string[] = [
     'select',
-    'image',
     'title',
     'description',
     'pricePerNight',
-    'owner',
+    'images',
     'actions',
   ];
   public dataSource: MatTableDataSource<Room>;
   public selection = new SelectionModel<Room>(true, []);
-
   public isShowFilterInput = false;
+  loadings: string[] = [];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  constructor(public modal: MatDialog) {}
+  constructor(
+    public modal: MatDialog,
+    private service: TablesService,
+    private toast: ToastrService
+  ) {}
   public ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<Room>(this.roomTableData);
+    this.dataSource = new MatTableDataSource<Room>(this.amenityTableData);
 
     this.dataSource.paginator = this.paginator;
   }
-
+  ngOnChanges(changes: SimpleChanges): void {
+    this.amenityTableData = changes.amenityTableData.currentValue;
+    this.dataSource = new MatTableDataSource<Room>(this.amenityTableData);
+    this.dataSource.paginator = this.paginator;
+  }
   /** Whether the number of selected elements matches the total number of rows. */
   public isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
@@ -67,12 +86,36 @@ export class RoomsTableComponent implements OnInit {
 
   public showFilterInput(): void {
     this.isShowFilterInput = !this.isShowFilterInput;
-    this.dataSource = new MatTableDataSource<Room>(this.roomTableData);
+    this.dataSource = new MatTableDataSource<Room>(this.amenityTableData);
   }
 
   handleDetail(id: string) {
     // this.modal.open(DetailUpdateComponent, {
     //   data: { id },
     // });
+  }
+
+  handleDelete(id: string) {
+    let dialogRef = this.modal.open(SelectModalComponent, {
+      data: {
+        title: 'Delete room',
+        sub: 'Are you sure to delete this room?',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      // if (result === true) {
+      //   this.loadings.push(id);
+      //   this.service
+      //     .deleteCategory(id)
+      //     .then((res) => {
+      //       this.toast.success('Delete category successful');
+      //       this.triggerReload.emit(true);
+      //     })
+      //     .catch((err) => {
+      //       this.toast.error('Something error, try again');
+      //     });
+      //   // this.triggerReload.emit(true);
+      // }
+    });
   }
 }

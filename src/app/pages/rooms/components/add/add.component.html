@@ -1,0 +1,94 @@
+<div class="container text-xl">
+  <h2>Add Room</h2>
+  <form action="" [formGroup]="form" (ngSubmit)="add()">
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Enter room's name"
+        formControlName="name"
+        required
+      />
+      <mat-error *ngIf="name.errors?.required">
+        This filed is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        placeholder="Enter room's description"
+        formControlName="description"
+        required
+        cols="5"
+      ></textarea>
+      <mat-error *ngIf="description.errors?.required">
+        This filed is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Price per night  ($)"
+        formControlName="pricePerNight"
+        required
+      />
+      <mat-error *ngIf="pricePerNight.errors?.required">
+        This filed is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="guests" formControlName="guests" required />
+      <mat-error *ngIf="guests.errors?.required">
+        This filed is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="bedrooms"
+        formControlName="bedrooms"
+        required
+      />
+      <mat-error *ngIf="bedrooms.errors?.required">
+        This filed is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="beds" formControlName="beds" required />
+      <mat-error *ngIf="beds.errors?.required">
+        This filed is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="baths" formControlName="baths" required />
+      <mat-error *ngIf="baths.errors?.required">
+        This filed is required
+      </mat-error>
+    </mat-form-field>
+    <div class="file">
+      <button type="button" mat-raised-button (click)="fileInput.click()">
+        Choose File
+      </button>
+      <input
+        hidden
+        (change)="onFileSelected($event)"
+        #fileInput
+        type="file"
+        id="file"
+      />
+    </div>
+    <button
+      *ngIf="!loading"
+      class="form-actions__login btn btn-primary"
+      type="submit"
+    >
+      Add
+    </button>
+    <button
+      *ngIf="loading"
+      class="form-actions__login btn btn-primary btn-loading"
+      type="button"
+    >
+      <app-loading [size]="20"></app-loading>
+    </button>
+  </form>
+</div>

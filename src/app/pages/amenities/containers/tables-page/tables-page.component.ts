@@ -19,19 +19,18 @@ export interface DialogData {
 })
 export class TablesPageComponent {
   public amenityTableData$: Amenity[] = [];
+  loading: boolean = true;
   // public materialTableData$: Observable<Customer[]>
 
   constructor(private service: TablesService, public addUsermodal: MatDialog) {
-    service.getAnenities().then((res) => {
-      this.amenityTableData$ = res.data.aminities;
-    });
-    // this.materialTableData$ = service.loadMaterialTableData();
+    // this.loading = true;
+    // service.getAnenities().then((res) => {
+    //   this.amenityTableData$ = res.data.aminities;
+    //   this.loading = false;
+    // });
   }
   openAddModal(): void {
-    const dialogRef = this.addUsermodal.open(AddComponent, {
-      width: '250px',
-      // data: {name: this.name, animal: this.animal}
-    });
+    const dialogRef = this.addUsermodal.open(AddComponent);
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
     });

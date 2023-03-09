@@ -1,4 +1,4 @@
-<form class="form" [formGroup]="form" (ngSubmit)="add()">
+<!-- <form class="form" [formGroup]="form" (ngSubmit)="add()">
   <h2>Add amenity</h2>
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
@@ -24,4 +24,58 @@
       <mat-spinner [diameter]="15" [color]="'warn'"></mat-spinner>
     </button>
   </div>
-</form>
+</form> -->
+<div class="container text-xl">
+  <h2>Add amenity</h2>
+  <form action="" [formGroup]="form" (ngSubmit)="add()">
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Enter amenity's name"
+        formControlName="name"
+        required
+      />
+      <mat-error *ngIf="name.errors?.required">
+        This filed is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        placeholder="Enter amenity's description"
+        formControlName="description"
+        required
+        cols="5"
+      ></textarea>
+      <mat-error *ngIf="description.errors?.required">
+        This filed is required
+      </mat-error>
+    </mat-form-field>
+    <div class="file">
+      <button type="button" mat-raised-button (click)="fileInput.click()">
+        Choose File
+      </button>
+      <input
+        hidden
+        (change)="onFileSelected($event)"
+        #fileInput
+        type="file"
+        id="file"
+      />
+    </div>
+    <button
+      *ngIf="!loading"
+      class="form-actions__login btn btn-primary"
+      type="submit"
+    >
+      Add
+    </button>
+    <button
+      *ngIf="loading"
+      class="form-actions__login btn btn-primary btn-loading"
+      type="button"
+    >
+      <app-loading [size]="20"></app-loading>
+    </button>
+  </form>
+</div>

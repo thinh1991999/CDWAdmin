@@ -13,6 +13,10 @@ import { DashboardModule } from './pages/dashboard/dashboard.module';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { AuthModule } from './pages/auth/auth.module';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { GoogleMapsModule } from '@angular/google-maps';
+// import { TablesModule } from './pages/amenities/amenities.module';
+// import { TablesModule } from './pages/categories/categories.module';
+import { TablesModule } from './pages/rooms/rooms.module';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent],
@@ -28,6 +32,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     MatCardModule,
     MatButtonModule,
     HttpClientModule,
+    TablesModule,
+    GoogleMapsModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
