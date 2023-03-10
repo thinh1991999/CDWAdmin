@@ -19,7 +19,7 @@ function validator(): ValidatorFn {
     //   return { length: control.value };
     // }
     return {
-      abc: control.value.length,
+      abc: control.value,
     };
   };
 }
@@ -52,7 +52,7 @@ export class AddComponent implements OnInit {
       longitude: new FormControl(null, [Validators.required]),
       address: new FormControl(null, [Validators.required]),
       propertyType: new FormControl('Private room', null),
-      amenities: new FormControl([], [validator()]),
+      amenities: new FormControl([], null),
       categories: new FormControl([], null),
     });
   }
@@ -120,6 +120,9 @@ export class AddComponent implements OnInit {
         this.amenities.value.splice(idx, 1);
       }
     }
+    this.amenities.setErrors({
+      length: false,
+    });
   }
 
   getCheckAmenities(id) {
@@ -129,9 +132,20 @@ export class AddComponent implements OnInit {
   onFileSelected(e) {
     this.srcResult = e.target.files[0];
   }
+  checkAmenAndCate() {
+    if (this.amenities.value.length < 1) {
+      this.amenities.setErrors({
+        length: true,
+      });
+    }
+    if (this.categories.value.length < 1) {
+      this.categories.setErrors({
+        length: true,
+      });
+    }
+  }
   public add(): void {
-    console.log(this.amenities.errors);
-
+    this.checkAmenAndCate();
     if (this.form.valid) {
       // const form = new FormData();
       // form.append('name', this.name.value);
