@@ -1,6 +1,24 @@
 <div class="container text-xl">
-  <h2>Add Room</h2>
-  <form action="" [formGroup]="form" (ngSubmit)="add()">
+  <app-loading *ngIf="loading" [black]="true"></app-loading>
+  <form *ngIf="!loading" action="" [formGroup]="form" (ngSubmit)="add()">
+    <h2>Add Room</h2>
+    <div class="box">
+      <h3>Images</h3>
+      <div class="img-wrap">
+        <div class="wrap">
+          <button class="img-add" type="button">
+            <mat-icon> add </mat-icon>
+            <span>Add</span>
+          </button>
+        </div>
+        <div class="wrap">
+          <img
+            src="https://th.bing.com/th/id/OIP.P3-9bKaVvL3ZofGHlnZRowHaFa?w=236&h=180&c=7&r=0&o=5&pid=1.7"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
     <mat-form-field>
       <input
         matInput
@@ -24,46 +42,164 @@
         This filed is required
       </mat-error>
     </mat-form-field>
+    <div class="flex">
+      <div class="w-1-2">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Price per night  ($)"
+            formControlName="pricePerNight"
+            required
+          />
+          <mat-error *ngIf="pricePerNight.errors?.required">
+            This filed is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="w-1-2">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="guests"
+            formControlName="guests"
+            required
+          />
+          <mat-error *ngIf="guests.errors?.required">
+            This filed is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flex">
+      <div class="w-1-2">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="bedrooms"
+            formControlName="bedrooms"
+            required
+          />
+          <mat-error *ngIf="bedrooms.errors?.required">
+            This filed is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="w-1-2">
+        <mat-form-field>
+          <input matInput placeholder="beds" formControlName="beds" required />
+          <mat-error *ngIf="beds.errors?.required">
+            This filed is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flex">
+      <div class="w-1-2">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="baths"
+            formControlName="baths"
+            required
+          />
+          <mat-error *ngIf="baths.errors?.required">
+            This filed is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="w-1-2">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="living rooms"
+            formControlName="livingRooms"
+            required
+          />
+          <mat-error *ngIf="livingRooms.errors?.required">
+            This filed is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flex">
+      <div class="w-1-2">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="latitude"
+            formControlName="latitude"
+            required
+          />
+          <mat-error *ngIf="baths.errors?.required">
+            This filed is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="w-1-2">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="longitude"
+            formControlName="longitude"
+            required
+          />
+          <mat-error *ngIf="beds.errors?.required">
+            This filed is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
     <mat-form-field>
       <input
         matInput
-        placeholder="Price per night  ($)"
-        formControlName="pricePerNight"
+        placeholder="address"
+        formControlName="address"
         required
       />
-      <mat-error *ngIf="pricePerNight.errors?.required">
-        This filed is required
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="guests" formControlName="guests" required />
-      <mat-error *ngIf="guests.errors?.required">
-        This filed is required
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        placeholder="bedrooms"
-        formControlName="bedrooms"
-        required
-      />
-      <mat-error *ngIf="bedrooms.errors?.required">
-        This filed is required
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="beds" formControlName="beds" required />
-      <mat-error *ngIf="beds.errors?.required">
-        This filed is required
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="baths" formControlName="baths" required />
       <mat-error *ngIf="baths.errors?.required">
         This filed is required
       </mat-error>
     </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Property Type" formControlName="propertyType">
+        <mat-option value="Entire place">Entire place</mat-option>
+        <mat-option value="Private room">Private room</mat-option>
+        <mat-option value="Shared room">Shared room</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="box">
+      <h3>Amenities</h3>
+      <div class="flex">
+        <section class="w-1-2" *ngFor="let amenity of amenitiesArr">
+          <mat-checkbox
+            class="checkbox"
+            [checked]="getCheckAmenities(amenity._id)"
+            (change)="handleChangeAmenities($event, amenity._id)"
+          >
+            <img [src]="amenity.icon_url" alt="" />
+            {{ amenity.name }}
+          </mat-checkbox>
+        </section>
+      </div>
+    </div>
+    <div class="box">
+      <h3>Categories</h3>
+      <div class="flex">
+        <div
+          class="w-1-2"
+          *ngFor="let category of categoriesArr; let i = index"
+        >
+          <mat-checkbox
+            class="checkbox"
+            [checked]="getCheckCategories(category._id)"
+            (change)="handleChangeCategories($event, category._id)"
+          >
+            <img [src]="category.icon_url" alt="" />
+            {{ category.name }}
+          </mat-checkbox>
+        </div>
+      </div>
+    </div>
     <div class="file">
       <button type="button" mat-raised-button (click)="fileInput.click()">
         Choose File

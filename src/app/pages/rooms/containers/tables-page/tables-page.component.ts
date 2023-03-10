@@ -26,6 +26,10 @@ export class TablesPageComponent {
   loading: boolean = false;
   constructor(private service: TablesService, public addUsermodal: MatDialog) {
     this.reload();
+    const dialogRef = this.addUsermodal.open(AddComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
   }
 
   openAddModal(): void {

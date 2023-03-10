@@ -33,6 +33,11 @@ $angular-material-admin-theme: mat-light-theme(
 // that you are using.
 @include angular-material-theme($angular-material-admin-theme);
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 $ama-yellow: (
   50: $yellow,
   100: #ececec,
@@ -434,4 +439,8 @@ div.apexcharts-xaxistooltip-bottom:after {
 .btn.btn-primary {
   background-color: #536dfe;
   color: white;
+}
+
+.cdk-overlay-pane {
+  overflow-y: auto;
 }
