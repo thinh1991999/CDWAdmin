@@ -45,4 +45,21 @@ export class GlobalService {
       token,
     };
   }
+  validateImage(str: string) {
+    let regex = new RegExp(/[^\s]+(.*?).(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/);
+
+    // if str
+    // is empty return false
+    if (str == null) {
+      return true;
+    }
+
+    // Return true if the str
+    // matched the ReGex
+    if (regex.test(str) == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

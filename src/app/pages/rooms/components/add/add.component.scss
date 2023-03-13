@@ -59,8 +59,8 @@ form {
   margin: -8px;
   margin-top: 20px;
   .wrap {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     padding: 8px;
     button {
       height: 100%;
@@ -68,18 +68,56 @@ form {
       cursor: pointer;
       margin: unset;
       border: 3px dotted black;
+      border-radius: 5px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+
+      &:hover {
+        opacity: 0.5;
+      }
       span {
         margin-top: 5px;
       }
     }
-    img {
+    input {
+      display: none;
+    }
+    .wrap_img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .img_show {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+        &:hover {
+          .btn_dele {
+            display: block;
+          }
+        }
+        .btn_dele {
+          display: none;
+          position: absolute;
+          bottom: 5px;
+          right: 5px;
+          border: unset;
+          background: unset;
+          width: 50px;
+          height: 50px;
+        }
+      }
     }
   }
 }

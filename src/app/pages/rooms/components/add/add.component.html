@@ -4,18 +4,51 @@
     <h2>Add Room</h2>
     <div class="box">
       <h3>Images</h3>
+      <mat-error *ngIf="images.errors?.length"> At least 5 pictures </mat-error>
       <div class="img-wrap">
         <div class="wrap">
-          <button class="img-add" type="button">
+          <button
+            *ngIf="!loadingImg"
+            class="img-add"
+            (click)="fileInput.click()"
+            type="button"
+          >
             <mat-icon> add </mat-icon>
             <span>Add</span>
           </button>
-        </div>
-        <div class="wrap">
-          <img
-            src="https://th.bing.com/th/id/OIP.P3-9bKaVvL3ZofGHlnZRowHaFa?w=236&h=180&c=7&r=0&o=5&pid=1.7"
-            alt=""
+          <button
+            *ngIf="loadingImg"
+            class="img-add btn btn-loading"
+            type="button"
+          >
+            <app-loading [size]="20" [black]="true"></app-loading>
+          </button>
+          <input
+            type="file"
+            hidden
+            id="img-btn"
+            #fileInput
+            (change)="handleImg($event)"
           />
+        </div>
+        <div class="wrap" *ngFor="let img of this.images.value">
+          <div class="wrap_img">
+            <app-loading
+              [size]="20"
+              *ngIf="getLoadingImgDele(img.hint)"
+              [black]="true"
+            ></app-loading>
+            <div class="img_show" *ngIf="!getLoadingImgDele(img.hint)">
+              <img src="{{ img.publicUrl }}" alt="" />
+              <button
+                class="btn_dele"
+                type="button"
+                (click)="handleDeleteImg(img)"
+              >
+                <mat-icon [ngStyle]="{ color: 'red' }">delete</mat-icon>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -218,19 +251,30 @@
         id="file"
       />
     </div>
-    <button
-      *ngIf="!loading"
-      class="form-actions__login btn btn-primary"
-      type="submit"
-    >
-      Add
-    </button>
-    <button
-      *ngIf="loading"
-      class="form-actions__login btn btn-primary btn-loading"
-      type="button"
-    >
-      <app-loading [size]="20"></app-loading>
-    </button>
+    <div class="">
+      <button
+        *ngIf="!loading"
+        class="form-actions__login btn btn-primary"
+        type="submit"
+      >
+        cancer
+      </button>
+      <div class="">
+        <button
+          *ngIf="!loading"
+          class="form-actions__login btn btn-primary"
+          type="submit"
+        >
+          Add
+        </button>
+        <button
+          *ngIf="loading"
+          class="form-actions__login btn btn-primary btn-loading"
+          type="button"
+        >
+          <app-loading [size]="20"></app-loading>
+        </button>
+      </div>
+    </div>
   </form>
 </div>
