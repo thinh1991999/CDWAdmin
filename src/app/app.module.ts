@@ -14,6 +14,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { AuthModule } from './pages/auth/auth.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 // import { GoogleMapsModule } from '@angular/google-maps';
+import { AgmCoreModule } from '@agm/core';
 // import { TablesModule } from './pages/amenities/amenities.module';
 // import { TablesModule } from './pages/categories/categories.module';
 import { TablesModule } from './pages/rooms/rooms.module';
@@ -33,7 +34,9 @@ import { TablesModule } from './pages/rooms/rooms.module';
     MatButtonModule,
     HttpClientModule,
     TablesModule,
-    // GoogleMapsModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDkyVccFb7LHI00Vv0TGfx_wxzEQ-AG1Qc',
+    }),
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),

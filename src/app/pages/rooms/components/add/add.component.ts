@@ -146,6 +146,9 @@ export class AddComponent implements OnInit {
   get livingRooms(): AbstractControl {
     return this.form.get('livingRooms')!;
   }
+  get propertyType(): AbstractControl {
+    return this.form.get('propertyType')!;
+  }
   get amenities(): AbstractControl {
     return this.form.get('amenities')!;
   }
@@ -232,6 +235,8 @@ export class AddComponent implements OnInit {
     this.images.setErrors(null);
     const target = e.target as HTMLInputElement;
     const file = target.files[0];
+    console.log(file);
+
     if (this.global.validateImage(file.type)) {
       const formData = new FormData();
       formData.append('image', file);
@@ -257,36 +262,60 @@ export class AddComponent implements OnInit {
 
   handleDeleteImg(img) {
     const hint = img.hint;
-    this.loadingImgsDelete.push(hint);
-    this.service
-      .removeImg(hint)
-      .then((res) => {
-        const idxDel = this.loadingImgsDelete.findIndex((vl) => vl === hint);
-        this.loadingImgsDelete.splice(idxDel, 1);
-        const imgs = this.images.value;
-        const idxImg = imgs.findIndex((img) => img.hint === hint);
-        imgs.splice(idxImg, 1);
-        this.images.setValue(imgs);
-      })
-      .catch((err) => {
-        const imgs = this.images.value;
-        const idxImg = imgs.findIndex((img) => img.hint === hint);
-        imgs.splice(idxImg, 1);
-        this.images.setValue(imgs);
-      });
+    // this.loadingImgsDelete.push(hint);
+    // this.service
+    //   .removeImg(hint)
+    //   .then((res) => {
+    //     const idxDel = this.loadingImgsDelete.findIndex((vl) => vl === hint);
+    //     this.loadingImgsDelete.splice(idxDel, 1);
+    //     const imgs = this.images.value;
+    //     const idxImg = imgs.findIndex((img) => img.hint === hint);
+    //     imgs.splice(idxImg, 1);
+    //     this.images.setValue(imgs);
+    //   })
+    //   .catch((err) => {
+    //     const imgs = this.images.value;
+    //     const idxImg = imgs.findIndex((img) => img.hint === hint);
+    //     imgs.splice(idxImg, 1);
+    //     this.images.setValue(imgs);
+    //   });
+    const imgs = this.images.value;
+    const idxImg = imgs.findIndex((img) => img.hint === hint);
+    imgs.splice(idxImg, 1);
+    this.images.setValue(imgs);
+  }
+
+  clear() {
+    this.name.setValue('');
+    this.description.setValue('');
+    this.pricePerNight.setValue('');
+    this.guests.setValue('');
+    this.bedrooms.setValue('');
+    this.livingRooms.setValue('');
+    this.beds.setValue('');
+    this.baths.setValue('');
+    this.latitude.setValue('');
+    this.longitude.setValue('');
+    this.address.setValue('');
+    this.propertyType.setValue('Private room');
+    this.amenities.setValue([]);
+    this.categories.setValue([]);
+    this.images.setValue([]);
   }
 
   public add(): void {
     if (this.form.valid && this.checkAmenAndCate() && this.checkErrorImages()) {
-      console.log(this.form.value);
       this.loading = true;
       this.service
         .createRoom(this.form.value)
         .then((res) => {
-          console.log(res);
+          this.clear();
+          this.toastr.success('Add room successful');
+          this.loading = false;
         })
         .catch((err) => {
-          console.log(err);
+          this.toastr.success('Something error');
+          this.loading = false;
         });
     }
   }
