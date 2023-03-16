@@ -9,13 +9,13 @@ import {
   RevenueChartData,
   ServerChartData,
   SupportRequestData,
-  VisitsChartData
+  VisitsChartData,
 } from '../../models';
 
 @Component({
   selector: 'app-dashboard-page',
   templateUrl: './dashboard-page.component.html',
-  styleUrls: ['./dashboard-page.component.scss']
+  styleUrls: ['./dashboard-page.component.scss'],
 })
 export class DashboardPageComponent {
   public dailyLineChartData$: Observable<DailyLineChartData>;

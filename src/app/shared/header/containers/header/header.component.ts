@@ -40,7 +40,6 @@ export class HeaderComponent {
       this.router.navigate([this.routers.LOGIN]);
       this.global.logout();
     });
-
-    // this.router.navigate([this.routers.LOGIN]);
+    this.router.navigate([this.routers.LOGIN]);
   }
 }

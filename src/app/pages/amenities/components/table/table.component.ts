@@ -1,9 +1,11 @@
 import {
   Component,
   Input,
+  Output,
   OnInit,
   ViewChild,
   SimpleChanges,
+  EventEmitter,
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -11,6 +13,11 @@ import { MatPaginator } from '@angular/material/paginator';
 
 import { Amenity } from '../../models/Amenity';
 import { MatDialog } from '@angular/material/dialog';
+import { DetailComponent } from '../detail/detail.component';
+import { SelectModalComponent } from 'src/app/shared/select-modal/select-modal.component';
+import { TablesService } from '../../services';
+import { ToastrService } from 'ngx-toastr';
+import { UpdateComponent } from '../update/update.component';
 // import { DetailUpdateComponent } from '../detail-update/detail-update.component';
 
 @Component({
@@ -20,6 +27,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class RoomsTableComponent implements OnInit {
   @Input() amenityTableData: Amenity[];
+  @Output() triggerReload: EventEmitter<boolean> = new EventEmitter();
   public displayedColumns: string[] = [
     'select',
     'name',
@@ -29,11 +37,15 @@ export class RoomsTableComponent implements OnInit {
   ];
   public dataSource: MatTableDataSource<Amenity>;
   public selection = new SelectionModel<Amenity>(true, []);
-
+  loadings: string[] = [];
   public isShowFilterInput = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  constructor(public modal: MatDialog) {
+  constructor(
+    public modal: MatDialog,
+    private service: TablesService,
+    private toast: ToastrService
+  ) {
     console.log(this.amenityTableData);
   }
   public ngOnInit(): void {
@@ -81,8 +93,37 @@ export class RoomsTableComponent implements OnInit {
   }
 
   handleDetail(id: string) {
-    // this.modal.open(DetailUpdateComponent, {
-    //   data: { id },
-    // });
+    this.modal.open(DetailComponent, {
+      data: { id },
+    });
+  }
+
+  handleDelete(id: string) {
+    let dialogRef = this.modal.open(SelectModalComponent, {
+      data: {
+        title: 'Delete amenity',
+        sub: 'Are you sure to delete this amenity?',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.loadings.push(id);
+        this.service
+          .deleteAmenity(id)
+          .then((res) => {
+            this.toast.success('Delete category successful');
+            this.triggerReload.emit(true);
+          })
+          .catch((err) => {
+            this.toast.error('Something error, try again');
+          });
+      }
+    });
+  }
+
+  handleUpdate(id: string) {
+    this.modal.open(UpdateComponent, {
+      data: { id },
+    });
   }
 }

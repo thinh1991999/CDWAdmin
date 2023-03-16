@@ -1,0 +1,30 @@
+<div class="">
+  <app-loading *ngIf="loading" [black]="true"></app-loading>
+  <div *ngIf="!loading" class="">
+    <h3>Amenity detail</h3>
+    <div class="row">
+      <span>Name</span>
+      <div class="">
+        {{ amenity.name }}
+      </div>
+    </div>
+    <div class="row">
+      <span>Description</span>
+      <div class="">
+        {{ amenity.description }}
+      </div>
+    </div>
+    <div class="row">
+      <span>Icon</span>
+      <div class="">
+        <img [src]="amenity.icon_url.publicUrl" alt="" />
+      </div>
+    </div>
+    <div class="row">
+      <span>Time created</span>
+      <div class="">
+        <span>{{ getTime(amenity.createdAt) }}</span>
+      </div>
+    </div>
+  </div>
+</div>

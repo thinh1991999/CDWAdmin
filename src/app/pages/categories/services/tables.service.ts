@@ -20,10 +20,29 @@ export class TablesService {
     return axios.get('http://localhost:8000/category/all');
   }
 
+  public getDetailCategory(id: string): Promise<any> {
+    return axios.get('http://localhost:8000/category/detail', {
+      params: {
+        id,
+      },
+    });
+  }
+
   public addCategory(form: FormData) {
     return axios.post('http://localhost:8000/category', form, {
       headers: {
         Authorization: `Bearer ${this.token}`,
+      },
+    });
+  }
+
+  public updateCategory(form: FormData, id: string) {
+    return axios.put('http://localhost:8000/category/update', form, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+      params: {
+        id,
       },
     });
   }

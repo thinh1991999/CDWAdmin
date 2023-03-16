@@ -28,7 +28,7 @@ export class RoomsTableComponent implements OnInit {
   @Output() triggerReload: EventEmitter<boolean> = new EventEmitter();
   public displayedColumns: string[] = [
     'select',
-    'title',
+    'name',
     'description',
     'pricePerNight',
     'images',

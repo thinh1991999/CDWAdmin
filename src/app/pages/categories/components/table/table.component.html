@@ -89,7 +89,7 @@
           mat-cell
           *matCellDef="let element"
         >
-          <img [src]="element.icon_url" alt="" />
+          <img [src]="element.icon_url.publicUrl" alt="" />
         </td>
       </ng-container>
 
@@ -130,7 +130,13 @@
             >
               Detail
             </button>
-            <button mat-raised-button color="accent">Update</button>
+            <button
+              mat-raised-button
+              color="accent"
+              (click)="handleUpdate(element._id)"
+            >
+              Update
+            </button>
             <button
               mat-raised-button
               color="warn"

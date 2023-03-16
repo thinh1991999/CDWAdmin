@@ -15,9 +15,9 @@ import { AuthModule } from './pages/auth/auth.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 // import { GoogleMapsModule } from '@angular/google-maps';
 import { AgmCoreModule } from '@agm/core';
-// import { TablesModule } from './pages/amenities/amenities.module';
+import { TablesModule } from './pages/amenities/amenities.module';
 // import { TablesModule } from './pages/categories/categories.module';
-import { TablesModule } from './pages/rooms/rooms.module';
+// import { TablesModule } from './pages/rooms/rooms.module';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent],

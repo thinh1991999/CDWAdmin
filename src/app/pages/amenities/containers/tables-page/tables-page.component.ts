@@ -13,7 +13,7 @@ export interface DialogData {
   name: string;
 }
 @Component({
-  selector: 'app-tables-page',
+  selector: 'app-tables-amenity',
   templateUrl: './tables-page.component.html',
   styleUrls: ['./tables-page.component.scss'],
 })
@@ -23,31 +23,29 @@ export class TablesPageComponent {
   // public materialTableData$: Observable<Customer[]>
 
   constructor(private service: TablesService, public addUsermodal: MatDialog) {
-    // this.loading = true;
-    // service.getAnenities().then((res) => {
-    //   this.amenityTableData$ = res.data.aminities;
-    //   this.loading = false;
-    // });
+    this.reload();
   }
+
+  reload() {
+    this.loading = true;
+    this.service.getAnenities().then((res) => {
+      this.amenityTableData$ = res.data.amenities;
+      this.loading = false;
+    });
+  }
+  handleRefresh() {
+    this.reload();
+  }
+
   openAddModal(): void {
     const dialogRef = this.addUsermodal.open(AddComponent);
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
     });
   }
+  trigger(status: boolean) {
+    if (status) {
+      this.reload();
+    }
+  }
 }
-
-// @Component({
-//   selector: 'add-user.component',
-//   templateUrl: 'add-user.component.html',
-// })
-// export class AddUserComponent {
-//   constructor(
-//     public ref: MatDialogRef<AddUserComponent>,
-//     @Inject(MAT_DIALOG_DATA) public data: DialogData
-//   ) {}
-
-//   onNoClick(): void {
-//     this.ref.close();
-//   }
-// }

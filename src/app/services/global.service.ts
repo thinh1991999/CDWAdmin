@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { User } from '../pages/auth/models';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -61,5 +62,10 @@ export class GlobalService {
     } else {
       return false;
     }
+  }
+  getTimeDetail(time: Date) {
+    const date = moment(time);
+    let todayDate = date.format('M/D/YYYY');
+    return todayDate;
   }
 }

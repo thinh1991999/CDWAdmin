@@ -28,4 +28,34 @@ export class TablesService {
       },
     });
   }
+
+  public getDetailAmenity(id: string): Promise<any> {
+    return axios.get('http://localhost:8000/amenity/detail', {
+      params: {
+        id,
+      },
+    });
+  }
+
+  public deleteAmenity(id: string) {
+    return axios.delete('http://localhost:8000/amenity/delete', {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+      params: {
+        id,
+      },
+    });
+  }
+
+  public updateAmenity(form: FormData, id: string) {
+    return axios.put('http://localhost:8000/amenity/update', form, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+      params: {
+        id,
+      },
+    });
+  }
 }

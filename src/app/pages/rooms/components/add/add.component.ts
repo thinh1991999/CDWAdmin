@@ -35,14 +35,16 @@ export class AddComponent implements OnInit {
   loading: boolean = false;
   loadingImg: boolean = false;
   loadingImgsDelete: string[] = [];
+  countries: {
+    name: string;
+    code: string;
+  }[] = [];
   amenitiesArr: Amenity[] = [];
   categoriesArr: Category[] = [];
   imgs: {
     publicUrl: string;
     hint: string;
   }[] = [];
-
-  title: string = '123';
   srcResult;
   constructor(
     private service: TablesService,
@@ -51,10 +53,9 @@ export class AddComponent implements OnInit {
     private zone: NgZone
   ) {}
 
-  ngOnInit(): void {
-    this.fetch();
+  async ngOnInit() {
+    await this.fetch();
     const values = this.service.getAddValues();
-    console.log(values);
     if (values === null) {
       this.form = new FormGroup({
         name: new FormControl(null, [Validators.required]),
@@ -68,6 +69,7 @@ export class AddComponent implements OnInit {
         latitude: new FormControl(null, [Validators.required]),
         longitude: new FormControl(null, [Validators.required]),
         address: new FormControl(null, [Validators.required]),
+        // country: new FormControl(null, [Validators.required]),
         propertyType: new FormControl(null || 'Private room', null),
         amenities: new FormControl([], null),
         categories: new FormControl([], null),
@@ -106,6 +108,7 @@ export class AddComponent implements OnInit {
         propertyType: new FormControl(propertyType || 'Private room', null),
         amenities: new FormControl(amenities || [], null),
         categories: new FormControl(categories || [], null),
+        // country: new FormControl(null, [Validators.required]),
         images: new FormControl(images || [], null),
       });
     }
@@ -324,11 +327,13 @@ export class AddComponent implements OnInit {
     this.loading = true;
     const call1 = this.service.getAmenities();
     const call2 = this.service.getCategories();
-    Promise.all([call1, call2])
+    const call3 = this.service.getCountries();
+    Promise.all([call1, call2, call3])
       .then((res) => {
-        const [res1, res2] = res;
+        const [res1, res2, res3] = res;
         this.amenitiesArr = res1.data.amenities;
         this.categoriesArr = res2.data.categories;
+        this.countries = res3.data;
         this.loading = false;
       })
       .catch((err) => {

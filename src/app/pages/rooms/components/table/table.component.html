@@ -60,20 +60,20 @@
           </mat-checkbox>
         </td>
       </ng-container>
-      <ng-container matColumnDef="title">
+      <ng-container matColumnDef="name">
         <th
           class="employee-table__table-header"
           mat-header-cell
           *matHeaderCellDef
         >
-          Title
+          Name
         </th>
         <td
           class="employee-table__table-body"
           mat-cell
           *matCellDef="let element"
         >
-          {{ element.title }}
+          {{ element.name }}
         </td>
       </ng-container>
       <ng-container matColumnDef="description">
@@ -89,7 +89,7 @@
           mat-cell
           *matCellDef="let element"
         >
-          {{ element.description }}
+          {{ element.description.slice(0, 100) }}
         </td>
       </ng-container>
       <ng-container matColumnDef="pricePerNight">

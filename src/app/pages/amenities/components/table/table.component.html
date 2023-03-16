@@ -89,7 +89,7 @@
           mat-cell
           *matCellDef="let element"
         >
-          <img [src]="element.icon_url" alt="" />
+          <img [src]="element.icon_url.publicUrl" alt="" />
         </td>
       </ng-container>
 
@@ -126,12 +126,24 @@
             <button
               mat-raised-button
               color="primary"
-              (click)="handleDetail(element.id)"
+              (click)="handleDetail(element._id)"
             >
               Detail
             </button>
-            <button mat-raised-button color="accent">Update</button>
-            <button mat-raised-button color="warn">Delete</button>
+            <button
+              mat-raised-button
+              color="accent"
+              (click)="handleUpdate(element._id)"
+            >
+              Update
+            </button>
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="handleDelete(element._id)"
+            >
+              Delete
+            </button>
           </div>
         </td>
       </ng-container>

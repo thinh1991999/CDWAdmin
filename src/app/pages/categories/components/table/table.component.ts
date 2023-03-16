@@ -16,6 +16,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectModalComponent } from 'src/app/shared/select-modal/select-modal.component';
 import { TablesService } from '../../services';
 import { ToastrService } from 'ngx-toastr';
+import { DetailComponent } from '../detail/detail.component';
+import { UpdateComponent } from '../update/update.component';
 // import { DetailUpdateComponent } from '../detail-update/detail-update.component';
 
 @Component({
@@ -89,9 +91,15 @@ export class RoomsTableComponent implements OnInit {
   }
 
   handleDetail(id: string) {
-    // this.modal.open(DetailUpdateComponent, {
-    //   data: { id },
-    // });
+    this.modal.open(DetailComponent, {
+      data: { id },
+    });
+  }
+
+  handleUpdate(id: string) {
+    this.modal.open(UpdateComponent, {
+      data: { id },
+    });
   }
 
   handleDelete(id: string) {
@@ -113,7 +121,6 @@ export class RoomsTableComponent implements OnInit {
           .catch((err) => {
             this.toast.error('Something error, try again');
           });
-        // this.triggerReload.emit(true);
       }
     });
   }

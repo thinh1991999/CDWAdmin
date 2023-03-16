@@ -1,0 +1,56 @@
+<div class="container text-xl">
+  <h2>Update category</h2>
+  <div class="center">
+    <app-loading *ngIf="loading" [black]="true"></app-loading>
+  </div>
+  <form *ngIf="!loading" action="" [formGroup]="form" (ngSubmit)="add()">
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Enter category's name"
+        formControlName="name"
+        required
+      />
+      <mat-error *ngIf="name.errors?.required">
+        This filed is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        placeholder="Enter category's description"
+        formControlName="description"
+        required
+        cols="5"
+      ></textarea>
+      <mat-error *ngIf="description.errors?.required">
+        This filed is required
+      </mat-error>
+    </mat-form-field>
+    <div class="file">
+      <!-- <button type="button" mat-raised-button (click)="fileInput.click()">
+        Choose File
+      </button> -->
+      <input
+        (change)="onFileSelected($event)"
+        #fileInput
+        type="file"
+        id="file"
+      />
+    </div>
+    <button
+      *ngIf="!loading"
+      class="form-actions__login btn btn-primary"
+      type="submit"
+    >
+      Update
+    </button>
+    <button
+      *ngIf="loading"
+      class="form-actions__login btn btn-primary btn-loading"
+      type="button"
+    >
+      <app-loading [size]="20"></app-loading>
+    </button>
+  </form>
+</div>

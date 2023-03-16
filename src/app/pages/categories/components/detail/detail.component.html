@@ -1,0 +1,30 @@
+<div class="">
+  <app-loading *ngIf="loading" [black]="true"></app-loading>
+  <div *ngIf="!loading" class="">
+    <h3>Category detail</h3>
+    <div class="row">
+      <span>Name</span>
+      <div class="">
+        {{ category.name }}
+      </div>
+    </div>
+    <div class="row">
+      <span>Description</span>
+      <div class="">
+        {{ category.description }}
+      </div>
+    </div>
+    <div class="row">
+      <span>Icon</span>
+      <div class="">
+        <img [src]="category.icon_url.publicUrl" alt="" />
+      </div>
+    </div>
+    <div class="row">
+      <span>Time created</span>
+      <div class="">
+        <span>{{ getTime(category.createdAt) }}</span>
+      </div>
+    </div>
+  </div>
+</div>
