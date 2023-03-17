@@ -13,6 +13,7 @@ import { TablesService } from '../../services';
 import { Amenity } from 'src/app/pages/amenities/models';
 import { Category } from 'src/app/pages/categories/models';
 import { GlobalService } from 'src/app/services/global.service';
+import { PlaceType, PropertyType } from '../../models';
 
 function validator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -41,6 +42,8 @@ export class AddComponent implements OnInit {
   }[] = [];
   amenitiesArr: Amenity[] = [];
   categoriesArr: Category[] = [];
+  placeTypeArr: PlaceType[] = [];
+  propertyArr: PropertyType[] = [];
   imgs: {
     publicUrl: string;
     hint: string;
@@ -69,8 +72,8 @@ export class AddComponent implements OnInit {
         latitude: new FormControl(null, [Validators.required]),
         longitude: new FormControl(null, [Validators.required]),
         address: new FormControl(null, [Validators.required]),
-        // country: new FormControl(null, [Validators.required]),
-        propertyType: new FormControl(null || 'Private room', null),
+        propertyType: new FormControl(null, null),
+        placeType: new FormControl(null, null),
         amenities: new FormControl([], null),
         categories: new FormControl([], null),
         images: new FormControl([], null),
@@ -89,6 +92,7 @@ export class AddComponent implements OnInit {
         longitude,
         address,
         propertyType,
+        placeType,
         amenities,
         categories,
         images,
@@ -105,10 +109,10 @@ export class AddComponent implements OnInit {
         latitude: new FormControl(latitude, [Validators.required]),
         longitude: new FormControl(longitude, [Validators.required]),
         address: new FormControl(address, [Validators.required]),
-        propertyType: new FormControl(propertyType || 'Private room', null),
         amenities: new FormControl(amenities || [], null),
         categories: new FormControl(categories || [], null),
-        // country: new FormControl(null, [Validators.required]),
+        placeType: new FormControl(placeType, null),
+        propertyType: new FormControl(propertyType || null, null),
         images: new FormControl(images || [], null),
       });
     }
@@ -151,6 +155,9 @@ export class AddComponent implements OnInit {
   }
   get propertyType(): AbstractControl {
     return this.form.get('propertyType')!;
+  }
+  get placeType(): AbstractControl {
+    return this.form.get('placeType')!;
   }
   get amenities(): AbstractControl {
     return this.form.get('amenities')!;
@@ -328,12 +335,16 @@ export class AddComponent implements OnInit {
     const call1 = this.service.getAmenities();
     const call2 = this.service.getCategories();
     const call3 = this.service.getCountries();
-    Promise.all([call1, call2, call3])
+    const call4 = this.service.getProperties();
+    const call5 = this.service.getPlaces();
+    Promise.all([call1, call2, call3, call4, call5])
       .then((res) => {
-        const [res1, res2, res3] = res;
+        const [res1, res2, res3, res4, res5] = res;
         this.amenitiesArr = res1.data.amenities;
         this.categoriesArr = res2.data.categories;
         this.countries = res3.data;
+        this.propertyArr = res4.data.properties;
+        this.placeTypeArr = res5.data.typePlaces;
         this.loading = false;
       })
       .catch((err) => {

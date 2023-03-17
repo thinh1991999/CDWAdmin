@@ -193,13 +193,30 @@
         This filed is required
       </mat-error>
     </mat-form-field>
-    <mat-form-field>
-      <mat-select placeholder="Property Type" formControlName="propertyType">
-        <mat-option value="Entire place">Entire place</mat-option>
-        <mat-option value="Private room">Private room</mat-option>
-        <mat-option value="Shared room">Shared room</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="flex">
+      <div class="w-1-2">
+        <mat-form-field>
+          <mat-select
+            placeholder="Property type"
+            formControlName="propertyType"
+          >
+            <mat-option *ngFor="let item of propertyArr" [value]="item._id">{{
+              item.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="w-1-2">
+        <mat-form-field>
+          <mat-select placeholder="Place Type" formControlName="placeType">
+            <mat-option *ngFor="let item of placeTypeArr" [value]="item._id">{{
+              item.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
     <div class="box">
       <h3>Amenities</h3>
       <mat-error *ngIf="amenities.errors?.length">
@@ -212,7 +229,7 @@
             [checked]="getCheckAmenities(amenity._id)"
             (change)="handleChangeAmenities($event, amenity._id)"
           >
-            <img [src]="amenity.icon_url" alt="" />
+            <img [src]="amenity.icon_url.publicUrl" alt="" />
             {{ amenity.name }}
           </mat-checkbox>
         </section>
@@ -233,7 +250,7 @@
             [checked]="getCheckCategories(category._id)"
             (change)="handleChangeCategories($event, category._id)"
           >
-            <img [src]="category.icon_url" alt="" />
+            <img [src]="category.icon_url.publicUrl" alt="" />
             {{ category.name }}
           </mat-checkbox>
         </div>

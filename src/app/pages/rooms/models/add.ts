@@ -11,6 +11,7 @@ export interface Add {
   longitude: number;
   address: string;
   propertyType: string;
+  placeType: string;
   amenities: string[];
   categories: string[];
   images: string[];

@@ -38,6 +38,14 @@ export class TablesService {
     return axios.get(this.url + '/amenity/all');
   }
 
+  public getPlaces(): Promise<any> {
+    return axios.get(this.url + '/typePlace/all');
+  }
+
+  public getProperties(): Promise<any> {
+    return axios.get(this.url + '/propertyType/all');
+  }
+
   public createImg(data): Promise<any> {
     return axios.post(this.url + '/room/image/single', data, {
       headers: {

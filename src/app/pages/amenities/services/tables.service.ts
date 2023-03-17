@@ -22,7 +22,7 @@ export class TablesService {
 
   public addAmenity(form: FormData) {
     console.log(this.token);
-    return axios.post('http://localhost:8000/amenity/update', form, {
+    return axios.post('http://localhost:8000/amenity', form, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
