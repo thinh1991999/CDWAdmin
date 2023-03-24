@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { Observable, of } from 'rxjs';
 import { GlobalService } from 'src/app/services/global.service';
 
@@ -12,42 +12,54 @@ import { Add } from '../models/add';
 export class TablesService {
   private token: string = '';
   private url = 'http://localhost:8000';
+  private axios: AxiosInstance;
   constructor(private global: GlobalService) {
     this.global._token$.subscribe((token) => {
       this.token = token;
     });
+    this.axios = axios.create({
+      baseURL: this.global.getUrl(),
+    });
   }
 
   public createRoom(data: Add): Promise<any> {
-    return axios.post(this.url + '/room/create', data, {
+    return this.axios.post('/room/create', data, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
     });
   }
 
+  public getDetailRoom(id: string): Promise<any> {
+    return this.axios.get('/room/admin', {
+      params: {
+        id,
+      },
+    });
+  }
+
   public getRooms(): Promise<any> {
-    return axios.get(this.url + '/room/all');
+    return this.axios.get('/room/all');
   }
 
   public getCategories(): Promise<any> {
-    return axios.get(this.url + '/category/all');
+    return this.axios.get('/category/all');
   }
 
   public getAmenities(): Promise<any> {
-    return axios.get(this.url + '/amenity/all');
+    return this.axios.get('/amenity/all');
   }
 
   public getPlaces(): Promise<any> {
-    return axios.get(this.url + '/typePlace/all');
+    return this.axios.get('/typePlace/all');
   }
 
   public getProperties(): Promise<any> {
-    return axios.get(this.url + '/propertyType/all');
+    return this.axios.get('/propertyType/all');
   }
 
   public createImg(data): Promise<any> {
-    return axios.post(this.url + '/room/image/single', data, {
+    return this.axios.post('/room/image/single', data, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
@@ -55,8 +67,8 @@ export class TablesService {
   }
 
   public removeImg(hint: string): Promise<any> {
-    return axios.post(
-      this.url + '/room/image/delete',
+    return this.axios.post(
+      '/room/image/delete',
       {
         url: hint,
       },

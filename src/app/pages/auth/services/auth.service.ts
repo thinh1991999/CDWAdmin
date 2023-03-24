@@ -11,14 +11,14 @@ import { GlobalService } from 'src/app/services/global.service';
 export class AuthService {
   private readonly _user = new BehaviorSubject<User | null>(null);
   readonly _user$ = this._user.asObservable();
-  private axios = axios.create({
-    baseURL: 'http://localhost:8000',
-  });
+  private axios;
   private token: string;
-  private baseURl: string = 'http://localhost:8000';
   constructor(private httpClient: HttpClient, private global: GlobalService) {
     this.global._token$.subscribe((token) => {
       this.token = token;
+    });
+    this.axios = axios.create({
+      baseURL: this.global.getUrl(),
     });
   }
   public login(data: { email: string; password: string }): Promise<any> {

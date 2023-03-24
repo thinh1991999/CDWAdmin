@@ -121,7 +121,12 @@
           mat-cell
           *matCellDef="let element"
         >
-          {{ element.images }}
+          <img
+            *ngFor="let img of element.images"
+            src="{{ img.publicUrl }}"
+            alt=""
+            class="img_room"
+          />
         </td>
       </ng-container>
       <ng-container matColumnDef="actions">

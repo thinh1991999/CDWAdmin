@@ -10,19 +10,23 @@ import { Amenity } from '../models';
 })
 export class TablesService {
   private token: string = '';
+  private axios;
   constructor(private global: GlobalService) {
     this.global._token$.subscribe((token) => {
       this.token = token;
     });
+    this.axios = axios.create({
+      baseURL: this.global.getUrl(),
+    });
   }
 
   public getAnenities(): Promise<any> {
-    return axios.get('http://localhost:8000/amenity/all');
+    return this.axios.get('/amenity/all');
   }
 
   public addAmenity(form: FormData) {
     console.log(this.token);
-    return axios.post('http://localhost:8000/amenity', form, {
+    return this.axios.post('/amenity', form, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
@@ -30,7 +34,7 @@ export class TablesService {
   }
 
   public getDetailAmenity(id: string): Promise<any> {
-    return axios.get('http://localhost:8000/amenity/detail', {
+    return this.axios.get('/amenity/detail', {
       params: {
         id,
       },
@@ -38,7 +42,7 @@ export class TablesService {
   }
 
   public deleteAmenity(id: string) {
-    return axios.delete('http://localhost:8000/amenity/delete', {
+    return this.axios.delete('/amenity/delete', {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
@@ -49,7 +53,7 @@ export class TablesService {
   }
 
   public updateAmenity(form: FormData, id: string) {
-    return axios.put('http://localhost:8000/amenity/update', form, {
+    return this.axios.put('/amenity/update', form, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },

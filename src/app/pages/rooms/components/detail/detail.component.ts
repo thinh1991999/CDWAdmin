@@ -1,26 +1,25 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { Component, OnInit, NgZone, Inject } from '@angular/core';
 import {
-  AbstractControl,
-  FormArray,
-  FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
+  FormControl,
+  AbstractControl,
 } from '@angular/forms';
-import { TablesService } from '../../services';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { Amenity } from 'src/app/pages/amenities/models';
 import { Category } from 'src/app/pages/categories/models';
 import { GlobalService } from 'src/app/services/global.service';
 import { PlaceType, PropertyType } from '../../models';
+import { RoomDetail } from '../../models/roomDetail';
+import { TablesService } from '../../services';
 
 @Component({
-  selector: 'app-add',
-  templateUrl: './add.component.html',
-  styleUrls: ['./add.component.scss'],
+  selector: 'app-detail',
+  templateUrl: './detail.component.html',
+  styleUrls: ['./detail.component.scss'],
 })
-export class AddComponent implements OnInit {
+export class DetailComponent implements OnInit {
   public form: FormGroup;
   loading: boolean = false;
   loadingImg: boolean = false;
@@ -42,72 +41,118 @@ export class AddComponent implements OnInit {
     private service: TablesService,
     private toastr: ToastrService,
     private global: GlobalService,
-    private zone: NgZone
+    private zone: NgZone,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      id: string;
+    }
   ) {}
 
-  async ngOnInit() {
-    await this.fetch();
-    const values = this.service.getAddValues();
-    if (values === null) {
-      this.form = new FormGroup({
-        name: new FormControl(null, [Validators.required]),
-        description: new FormControl(null, [Validators.required]),
-        pricePerNight: new FormControl(null, [Validators.required]),
-        guests: new FormControl(null, [Validators.required]),
-        bedrooms: new FormControl(null, [Validators.required]),
-        livingRooms: new FormControl(null, [Validators.required]),
-        beds: new FormControl(null, [Validators.required]),
-        baths: new FormControl(null, [Validators.required]),
-        latitude: new FormControl(null, [Validators.required]),
-        longitude: new FormControl(null, [Validators.required]),
-        address: new FormControl(null, [Validators.required]),
-        propertyType: new FormControl(null, null),
-        placeType: new FormControl(null, null),
-        amenities: new FormControl([], null),
-        categories: new FormControl([], null),
-        images: new FormControl([], null),
+  ngOnInit() {
+    this.fetch();
+    this.service
+      .getDetailRoom(this.data.id)
+      .then((res) => {
+        const {
+          name,
+          description,
+          pricePerNight,
+          guests,
+          bedrooms,
+          livingRooms,
+          beds,
+          baths,
+          propertyType,
+          placeType,
+          amenities,
+          categories,
+          location: { coordinates, address },
+          images,
+        } = res.data.room as RoomDetail;
+        console.log(propertyType, placeType);
+        this.form = new FormGroup({
+          name: new FormControl(name, [Validators.required]),
+          description: new FormControl(description, [Validators.required]),
+          pricePerNight: new FormControl(pricePerNight, [Validators.required]),
+          guests: new FormControl(guests, [Validators.required]),
+          bedrooms: new FormControl(bedrooms, [Validators.required]),
+          livingRooms: new FormControl(livingRooms, [Validators.required]),
+          beds: new FormControl(beds, [Validators.required]),
+          baths: new FormControl(baths, [Validators.required]),
+          latitude: new FormControl(coordinates[0], [Validators.required]),
+          longitude: new FormControl(coordinates[1], [Validators.required]),
+          address: new FormControl(address, [Validators.required]),
+          amenities: new FormControl(amenities || [], null),
+          categories: new FormControl(categories || [], null),
+          placeType: new FormControl(placeType, null),
+          propertyType: new FormControl(propertyType || null, null),
+          images: new FormControl(images || [], null),
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    } else {
-      const {
-        name,
-        description,
-        pricePerNight,
-        guests,
-        bedrooms,
-        livingRooms,
-        beds,
-        baths,
-        latitude,
-        longitude,
-        address,
-        propertyType,
-        placeType,
-        amenities,
-        categories,
-        images,
-      } = values;
-      this.form = new FormGroup({
-        name: new FormControl(name, [Validators.required]),
-        description: new FormControl(description, [Validators.required]),
-        pricePerNight: new FormControl(pricePerNight, [Validators.required]),
-        guests: new FormControl(guests, [Validators.required]),
-        bedrooms: new FormControl(bedrooms, [Validators.required]),
-        livingRooms: new FormControl(livingRooms, [Validators.required]),
-        beds: new FormControl(beds, [Validators.required]),
-        baths: new FormControl(baths, [Validators.required]),
-        latitude: new FormControl(latitude, [Validators.required]),
-        longitude: new FormControl(longitude, [Validators.required]),
-        address: new FormControl(address, [Validators.required]),
-        amenities: new FormControl(amenities || [], null),
-        categories: new FormControl(categories || [], null),
-        placeType: new FormControl(placeType, null),
-        propertyType: new FormControl(propertyType || null, null),
-        images: new FormControl(images || [], null),
-      });
-    }
-    this.form.valueChanges.subscribe((values) => {
-      this.service.saveAddValues(values);
-    });
+    // const values = this.service.getAddValues();
+    // if (values === null) {
+    //   this.form = new FormGroup({
+    //     name: new FormControl(null, [Validators.required]),
+    //     description: new FormControl(null, [Validators.required]),
+    //     pricePerNight: new FormControl(null, [Validators.required]),
+    //     guests: new FormControl(null, [Validators.required]),
+    //     bedrooms: new FormControl(null, [Validators.required]),
+    //     livingRooms: new FormControl(null, [Validators.required]),
+    //     beds: new FormControl(null, [Validators.required]),
+    //     baths: new FormControl(null, [Validators.required]),
+    //     latitude: new FormControl(null, [Validators.required]),
+    //     longitude: new FormControl(null, [Validators.required]),
+    //     address: new FormControl(null, [Validators.required]),
+    //     propertyType: new FormControl(null, null),
+    //     placeType: new FormControl(null, null),
+    //     amenities: new FormControl([], null),
+    //     categories: new FormControl([], null),
+    //     images: new FormControl([], null),
+    //   });
+    // } else {
+    //   const {
+    //     name,
+    //     description,
+    //     pricePerNight,
+    //     guests,
+    //     bedrooms,
+    //     livingRooms,
+    //     beds,
+    //     baths,
+    //     latitude,
+    //     longitude,
+    //     address,
+    //     propertyType,
+    //     placeType,
+    //     amenities,
+    //     categories,
+    //     images,
+    //   } = values;
+    //   this.form = new FormGroup({
+    //     name: new FormControl(name, [Validators.required]),
+    //     description: new FormControl(description, [Validators.required]),
+    //     pricePerNight: new FormControl(pricePerNight, [Validators.required]),
+    //     guests: new FormControl(guests, [Validators.required]),
+    //     bedrooms: new FormControl(bedrooms, [Validators.required]),
+    //     livingRooms: new FormControl(livingRooms, [Validators.required]),
+    //     beds: new FormControl(beds, [Validators.required]),
+    //     baths: new FormControl(baths, [Validators.required]),
+    //     latitude: new FormControl(latitude, [Validators.required]),
+    //     longitude: new FormControl(longitude, [Validators.required]),
+    //     address: new FormControl(address, [Validators.required]),
+    //     amenities: new FormControl(amenities || [], null),
+    //     categories: new FormControl(categories || [], null),
+    //     placeType: new FormControl(placeType, null),
+    //     propertyType: new FormControl(propertyType || null, null),
+    //     images: new FormControl(images || [], null),
+    //   });
+    // }
+    // this.form.valueChanges.subscribe((values) => {
+    //   this.service.saveAddValues(values);
+    // });
   }
   get name(): AbstractControl {
     return this.form.get('name')!;

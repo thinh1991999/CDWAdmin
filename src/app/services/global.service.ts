@@ -11,6 +11,7 @@ export class GlobalService {
   readonly _user$ = this._user.asObservable();
   private readonly _token = new BehaviorSubject<string | null>(null);
   readonly _token$ = this._token.asObservable();
+  private url = 'http://localhost:8000/';
   constructor() {
     const { user, token } = this.getAuthenStorage();
     if (user && token) {
@@ -67,5 +68,8 @@ export class GlobalService {
     const date = moment(time);
     let todayDate = date.format('M/D/YYYY');
     return todayDate;
+  }
+  getUrl() {
+    return this.url;
   }
 }

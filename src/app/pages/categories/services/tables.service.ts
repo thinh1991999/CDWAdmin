@@ -10,18 +10,22 @@ import { Category } from '../models';
 })
 export class TablesService {
   private token: string = '';
+  private axios;
   constructor(private global: GlobalService) {
     this.global._token$.subscribe((token) => {
       this.token = token;
     });
+    this.axios = axios.create({
+      baseURL: this.global.getUrl(),
+    });
   }
 
   public getCategories(): Promise<any> {
-    return axios.get('http://localhost:8000/category/all');
+    return this.axios.get('/category/all');
   }
 
   public getDetailCategory(id: string): Promise<any> {
-    return axios.get('http://localhost:8000/category/detail', {
+    return this.axios.get('/category/detail', {
       params: {
         id,
       },
@@ -29,7 +33,7 @@ export class TablesService {
   }
 
   public addCategory(form: FormData) {
-    return axios.post('http://localhost:8000/category', form, {
+    return this.axios.post('/category', form, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
@@ -37,7 +41,7 @@ export class TablesService {
   }
 
   public updateCategory(form: FormData, id: string) {
-    return axios.put('http://localhost:8000/category/update', form, {
+    return this.axios.put('/category/update', form, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
@@ -48,8 +52,8 @@ export class TablesService {
   }
 
   public deleteCategory(id: string) {
-    return axios.post(
-      'http://localhost:8000/category/delete',
+    return this.axios.post(
+      '/category/delete',
       { id },
       {
         headers: {

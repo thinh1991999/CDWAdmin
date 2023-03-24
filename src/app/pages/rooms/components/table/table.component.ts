@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectModalComponent } from 'src/app/shared/select-modal/select-modal.component';
 import { TablesService } from '../../services';
 import { ToastrService } from 'ngx-toastr';
+import { DetailComponent } from '../detail/detail.component';
 // import { DetailUpdateComponent } from '../detail-update/detail-update.component';
 
 @Component({
@@ -47,7 +48,7 @@ export class RoomsTableComponent implements OnInit {
   ) {}
   public ngOnInit(): void {
     this.dataSource = new MatTableDataSource<Room>(this.amenityTableData);
-
+    console.log(this.dataSource);
     this.dataSource.paginator = this.paginator;
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -90,9 +91,9 @@ export class RoomsTableComponent implements OnInit {
   }
 
   handleDetail(id: string) {
-    // this.modal.open(DetailUpdateComponent, {
-    //   data: { id },
-    // });
+    this.modal.open(DetailComponent, {
+      data: { id },
+    });
   }
 
   handleDelete(id: string) {

@@ -36,10 +36,18 @@ export class HeaderComponent {
   }
 
   public signOut(): void {
-    this.authen.signOut().then((res) => {
-      this.router.navigate([this.routers.LOGIN]);
-      this.global.logout();
-    });
-    this.router.navigate([this.routers.LOGIN]);
+    // this.router.navigate([this.routers.LOGIN]);
+    // this.global.logout();
+    this.authen
+      .signOut()
+      .then((res) => {
+        this.router.navigate([this.routers.LOGIN]);
+        this.global.logout();
+      })
+      .catch(() => {
+        this.router.navigate([this.routers.LOGIN]);
+        this.global.logout();
+      });
+    // this.router.navigate([this.routers.LOGIN]);
   }
 }

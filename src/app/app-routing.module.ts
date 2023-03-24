@@ -8,20 +8,20 @@ const routes: Routes = [
   {
     path: 'amenities',
     pathMatch: 'full',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/amenities/amenities.module').then((m) => m.TablesModule),
   },
   {
     path: 'dashboard',
     pathMatch: 'full',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     component: DashboardPageComponent,
   },
   {
     path: 'typography',
     pathMatch: 'full',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/typography/typography.module').then(
         (m) => m.TypographyModule
@@ -30,14 +30,14 @@ const routes: Routes = [
   {
     path: 'tables',
     pathMatch: 'full',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/tables/tables.module').then((m) => m.TablesModule),
   },
   {
     path: 'rooms',
     pathMatch: 'full',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/rooms/rooms.module').then((m) => m.TablesModule),
   },
@@ -51,7 +51,7 @@ const routes: Routes = [
   {
     path: 'categories',
     pathMatch: 'full',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/categories/categories.module').then(
         (m) => m.TablesModule
@@ -60,7 +60,7 @@ const routes: Routes = [
   {
     path: 'notification',
     pathMatch: 'full',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/notification/notification.module').then(
         (m) => m.NotificationModule
@@ -68,7 +68,7 @@ const routes: Routes = [
   },
   {
     path: 'ui',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/ui-elements/ui-elements.module').then(
         (m) => m.UiElementsModule
