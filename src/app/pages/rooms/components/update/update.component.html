@@ -1,0 +1,298 @@
+<div class="container text-xl">
+    <app-loading *ngIf="loading" [black]="true"></app-loading>
+    <form *ngIf="!loading" action="" [formGroup]="form" (ngSubmit)="add()">
+      <h2>Add Room</h2>
+      <div class="box">
+        <h3>Images</h3>
+        <mat-error *ngIf="images.errors?.length"> At least 5 pictures </mat-error>
+        <div class="img-wrap">
+          <div class="wrap">
+            <button
+              *ngIf="!loadingImg"
+              class="img-add"
+              (click)="fileInput.click()"
+              type="button"
+            >
+              <mat-icon> add </mat-icon>
+              <span>Add</span>
+            </button>
+            <button
+              *ngIf="loadingImg"
+              class="img-add btn btn-loading"
+              type="button"
+            >
+              <app-loading [size]="20" [black]="true"></app-loading>
+            </button>
+            <input
+              type="file"
+              hidden
+              id="img-btn"
+              #fileInput
+              (change)="handleImg($event)"
+            />
+          </div>
+          <div class="wrap" *ngFor="let img of this.images.value">
+            <div class="wrap_img">
+              <app-loading
+                [size]="20"
+                *ngIf="getLoadingImgDele(img.hint)"
+                [black]="true"
+              ></app-loading>
+              <div class="img_show" *ngIf="!getLoadingImgDele(img.hint)">
+                <img src="{{ img.publicUrl }}" alt="" />
+                <button
+                  class="btn_dele"
+                  type="button"
+                  (click)="handleDeleteImg(img)"
+                >
+                  <mat-icon [ngStyle]="{ color: 'red' }">delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Enter room's name"
+          formControlName="name"
+          required
+        />
+        <mat-error *ngIf="name.errors?.required">
+          This filed is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
+          matInput
+          placeholder="Enter room's description"
+          formControlName="description"
+          required
+          cols="5"
+        ></textarea>
+        <mat-error *ngIf="description.errors?.required">
+          This filed is required
+        </mat-error>
+      </mat-form-field>
+      <div class="flex">
+        <div class="w-1-2">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Price per night  ($)"
+              formControlName="pricePerNight"
+              required
+            />
+            <mat-error *ngIf="pricePerNight.errors?.required">
+              This filed is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="w-1-2">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="guests"
+              formControlName="guests"
+              required
+            />
+            <mat-error *ngIf="guests.errors?.required">
+              This filed is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="w-1-2">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="bedrooms"
+              formControlName="bedrooms"
+              required
+            />
+            <mat-error *ngIf="bedrooms.errors?.required">
+              This filed is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="w-1-2">
+          <mat-form-field>
+            <input matInput placeholder="beds" formControlName="beds" required />
+            <mat-error *ngIf="beds.errors?.required">
+              This filed is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="w-1-2">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="baths"
+              formControlName="baths"
+              required
+            />
+            <mat-error *ngIf="baths.errors?.required">
+              This filed is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="w-1-2">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="living rooms"
+              formControlName="livings"
+              required
+            />
+            <mat-error *ngIf="livings.errors?.required">
+              This filed is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="w-1-2">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="latitude"
+              formControlName="latitude"
+              required
+            />
+            <mat-error *ngIf="beds.errors?.required">
+              This filed is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="w-1-2">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="longitude"
+              formControlName="longitude"
+              required
+            />
+            <mat-error *ngIf="beds.errors?.required">
+              This filed is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="address"
+          formControlName="address"
+          required
+        />
+        <mat-error *ngIf="baths.errors?.required">
+          This filed is required
+        </mat-error>
+      </mat-form-field>
+      <div class="flex">
+        <div class="w-1-2">
+          <mat-form-field>
+            <mat-select
+              placeholder="Property type"
+              formControlName="propertyType"
+              
+            >
+              <mat-option *ngFor="let item of propertyArr" [value]="item._id">{{
+                item.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="w-1-2">
+          <mat-form-field>
+            <mat-select (value)="this.placeType.value" placeholder="Place Type" formControlName="placeType">
+              <mat-option *ngFor="let item of placeTypeArr" [value]="item._id">{{
+                item.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+  
+      <div class="box">
+        <h3>Amenities</h3>
+        <mat-error *ngIf="amenities.errors?.length">
+          Must have at least 1 amenity
+        </mat-error>
+        <div class="flex">
+          <section class="w-1-2" *ngFor="let amenity of amenitiesArr">
+            <mat-checkbox
+              class="checkbox"
+              [checked]="getCheckAmenities(amenity._id)"
+              (change)="handleChangeAmenities($event, amenity._id)"
+            >
+              <img [src]="amenity.icon_url.publicUrl" alt="" />
+              {{ amenity.name }}
+            </mat-checkbox>
+          </section>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Categories</h3>
+        <mat-error *ngIf="categories.errors?.length">
+          Must have at least 1 amenity
+        </mat-error>
+        <div class="flex">
+          <div
+            class="w-1-2"
+            *ngFor="let category of categoriesArr; let i = index"
+          >
+            <mat-checkbox
+              class="checkbox"
+              [checked]="getCheckCategories(category._id)"
+              (change)="handleChangeCategories($event, category._id)"
+            >
+              <img [src]="category.icon_url.publicUrl" alt="" />
+              {{ category.name }}
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="file">
+        <button type="button" mat-raised-button (click)="fileInput.click()">
+          Choose File
+        </button>
+        <input
+          hidden
+          (change)="onFileSelected($event)"
+          #fileInput
+          type="file"
+          id="file"
+        />
+      </div>
+      <div class="">
+        <div class="">
+          <button
+            *ngIf="!loading"
+            class="form-actions__login btn btn-primary"
+            type="submit"
+          >
+            Update
+          </button>
+          <button
+            *ngIf="loading"
+            class="form-actions__login btn btn-primary btn-loading"
+            type="button"
+          >
+            <app-loading [size]="20"></app-loading>
+          </button>
+        </div>
+        <button
+        *ngIf="!loading"
+        class="form-actions__login btn btn-primary"
+      >
+        cancer
+      </button>
+      </div>
+    </form>
+  </div>
+  

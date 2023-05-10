@@ -7,6 +7,7 @@ export interface RoomDetail {
   livingRooms: number;
   beds: number;
   baths: number;
+  livings:number
   location: {
     type: string;
     address: string;

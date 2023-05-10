@@ -30,6 +30,17 @@ export class TablesService {
     });
   }
 
+  public updateRoom(data: Add,id:string): Promise<any> {
+    return this.axios.put('/room/update', data, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+      params:{
+        id
+      }
+    });
+  }
+
   public getDetailRoom(id: string): Promise<any> {
     return this.axios.get('/room/admin', {
       params: {

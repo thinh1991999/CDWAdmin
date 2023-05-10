@@ -24,6 +24,7 @@ import { TablesService } from './services';
 import { RoomsTableComponent } from './components/table/table.component';
 import { AddComponent } from './components/add/add.component';
 import { DetailComponent } from './components/detail/detail.component';
+import { UpdateComponent } from './components/update/update.component';
 // import { DetailUpdateComponent } from './components/detail-update/detail-update.component';
 
 @NgModule({
@@ -32,6 +33,7 @@ import { DetailComponent } from './components/detail/detail.component';
     RoomsTableComponent,
     AddComponent,
     DetailComponent,
+    UpdateComponent,
     // EmployeeTableComponent,
     // DetailUpdateComponent,
   ],

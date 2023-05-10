@@ -1,25 +1,27 @@
-import { Component, OnInit, NgZone, Inject } from '@angular/core';
-import {
-  FormGroup,
-  Validators,
-  FormControl,
-  AbstractControl,
-} from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, NgZone, Inject,EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { TablesService } from '../../services';
 import { Amenity } from 'src/app/pages/amenities/models';
 import { Category } from 'src/app/pages/categories/models';
 import { GlobalService } from 'src/app/services/global.service';
 import { PlaceType, PropertyType } from '../../models';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RoomDetail } from '../../models/roomDetail';
-import { TablesService } from '../../services';
-
 @Component({
-  selector: 'app-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.scss'],
+  selector: 'app-update',
+  templateUrl: './update.component.html',
+  styleUrls: ['./update.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class UpdateComponent implements OnInit {
   public form: FormGroup;
   loading: boolean = false;
   loadingImg: boolean = false;
@@ -42,14 +44,16 @@ export class DetailComponent implements OnInit {
     private toastr: ToastrService,
     private global: GlobalService,
     private zone: NgZone,
+    public dialogRef: MatDialogRef<UpdateComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       id: string;
     }
   ) {}
 
-  ngOnInit() {
-    this.fetch();
+  async ngOnInit() {
+    await this.fetch();
+    const values = this.service.getAddValues();
     this.service
       .getDetailRoom(this.data.id)
       .then((res) => {
@@ -59,9 +63,9 @@ export class DetailComponent implements OnInit {
           pricePerNight,
           guests,
           bedrooms,
-          livings,
           beds,
           baths,
+          livings,
           propertyType,
           placeType,
           amenities,
@@ -71,20 +75,20 @@ export class DetailComponent implements OnInit {
         } = res.data.room as RoomDetail;
         
         this.form = new FormGroup({
-          name: new FormControl({ value:name,disabled: true}),
-          description: new FormControl({ value:description,disabled: true}),
-          pricePerNight: new FormControl({ value:pricePerNight,disabled: true}),
-          guests: new FormControl({ value:guests,disabled: true}),
-          bedrooms: new FormControl({ value:bedrooms,disabled: true}),
-          livings: new FormControl({ value:livings,disabled: true}),
-          beds: new FormControl({ value:beds,disabled: true}),
-          baths: new FormControl({ value:baths,disabled: true}),
-          latitude: new FormControl({ value:coordinates[0],disabled: true}),
-          longitude: new FormControl({ value:coordinates[1],disabled: true}),
-          address: new FormControl({ value:address,disabled: true}),
+          name: new FormControl(name,[Validators.required]),
+          description: new FormControl(description,[Validators.required]),
+          pricePerNight: new FormControl(pricePerNight,[Validators.required]),
+          guests: new FormControl(guests,[Validators.required]),
+          bedrooms: new FormControl(bedrooms,[Validators.required]),
+          livings: new FormControl(livings,[Validators.required]),
+          beds: new FormControl(beds,[Validators.required]),
+          baths: new FormControl(baths,[Validators.required]),
+          latitude: new FormControl(coordinates[0],[Validators.required]),
+          longitude: new FormControl(coordinates[1],[Validators.required]),
+          address: new FormControl(address,[Validators.required]),
           amenities: new FormControl(amenities || [], null),
           categories: new FormControl(categories || [], null),
-          placeType: new FormControl(placeType, null),
+          placeType: new FormControl(placeType || null, null),
           propertyType: new FormControl(propertyType || null, null),
           images: new FormControl(images || [], null),
         });
@@ -94,53 +98,53 @@ export class DetailComponent implements OnInit {
       });
   }
   get name(): AbstractControl {
-    return this.form.get('name')!;
+    return this.form.get('name');
   }
   get description(): AbstractControl {
-    return this.form.get('description')!;
+    return this.form.get('description');
   }
   get pricePerNight(): AbstractControl {
-    return this.form.get('pricePerNight')!;
+    return this.form.get('pricePerNight');
   }
   get guests(): AbstractControl {
-    return this.form.get('guests')!;
+    return this.form.get('guests');
   }
   get bedrooms(): AbstractControl {
-    return this.form.get('bedrooms')!;
+    return this.form.get('bedrooms');
   }
   get beds(): AbstractControl {
-    return this.form.get('beds')!;
+    return this.form.get('beds');
   }
   get baths(): AbstractControl {
-    return this.form.get('baths')!;
+    return this.form.get('baths');
   }
   get latitude(): AbstractControl {
-    return this.form.get('latitude')!;
+    return this.form.get('latitude');
   }
   get longitude(): AbstractControl {
-    return this.form.get('longitude')!;
+    return this.form.get('longitude');
   }
   get address(): AbstractControl {
-    return this.form.get('address')!;
+    return this.form.get('address');
   }
   get livings(): AbstractControl {
-    return this.form.get('livings')!;
+    return this.form.get('livings');
   }
   get propertyType(): AbstractControl {
-    return this.form.get('propertyType')!;
+    return this.form.get('propertyType');
   }
   get placeType(): AbstractControl {
-    return this.form.get('placeType')!;
+    return this.form.get('placeType');
   }
   get amenities(): AbstractControl {
-    return this.form.get('amenities')!;
+    return this.form.get('amenities');
   }
   get categories(): AbstractControl {
-    return this.form.get('categories')!;
+    return this.form.get('categories');
   }
 
   get images(): AbstractControl {
-    return this.form.get('images')!;
+    return this.form.get('images');
   }
 
   checkErrorImages() {
@@ -153,8 +157,11 @@ export class DetailComponent implements OnInit {
     return true;
   }
 
+  getLoadingImgDele(hint: string) {
+    return this.loadingImgsDelete.includes(hint);
+  }
+
   handleChangeCategories(event, id) {
-    return
     if (event.checked) {
       const newValue = [...this.categories.value, id];
       this.categories.setValue(newValue);
@@ -174,7 +181,6 @@ export class DetailComponent implements OnInit {
   }
 
   handleChangeAmenities(event, id) {
-    return
     if (event.checked) {
       const newValue = [...this.amenities.value, id];
       this.amenities.setValue(newValue);
@@ -216,7 +222,6 @@ export class DetailComponent implements OnInit {
     this.images.setErrors(null);
     const target = e.target as HTMLInputElement;
     const file = target.files[0];
-    console.log(file);
 
     if (this.global.validateImage(file.type)) {
       const formData = new FormData();
@@ -287,11 +292,12 @@ export class DetailComponent implements OnInit {
   public add(): void {
     if (this.form.valid && this.checkAmenAndCate() && this.checkErrorImages()) {
       this.loading = true;
+      console.log(this.form.value);
       this.service
-        .createRoom(this.form.value)
+        .updateRoom(this.form.value,this.data.id)
         .then((res) => {
-          this.clear();
-          this.toastr.success('Add room successful');
+          this.dialogRef.close({event:"RELOAD",data:true});
+          this.toastr.success('Update room successful');
           this.loading = false;
         })
         .catch((err) => {

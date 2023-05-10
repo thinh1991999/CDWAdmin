@@ -17,6 +17,7 @@ import { SelectModalComponent } from 'src/app/shared/select-modal/select-modal.c
 import { TablesService } from '../../services';
 import { ToastrService } from 'ngx-toastr';
 import { DetailComponent } from '../detail/detail.component';
+import { UpdateComponent } from '../update/update.component';
 // import { DetailUpdateComponent } from '../detail-update/detail-update.component';
 
 @Component({
@@ -48,7 +49,6 @@ export class RoomsTableComponent implements OnInit {
   ) {}
   public ngOnInit(): void {
     this.dataSource = new MatTableDataSource<Room>(this.amenityTableData);
-    console.log(this.dataSource);
     this.dataSource.paginator = this.paginator;
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -96,6 +96,18 @@ export class RoomsTableComponent implements OnInit {
     });
   }
 
+  handleUpdate(id: string) {
+    let dialogRef =this.modal.open(UpdateComponent, {
+      data: { id, triggerReload:this.triggerReload },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result.event==="RELOAD"){
+        this.triggerReload.emit(result.data)
+      }
+      
+    });
+  }
+
   handleDelete(id: string) {
     let dialogRef = this.modal.open(SelectModalComponent, {
       data: {
@@ -118,5 +130,9 @@ export class RoomsTableComponent implements OnInit {
       //   // this.triggerReload.emit(true);
       // }
     });
+  }
+
+  handleReloadMainData(status:boolean){
+    
   }
 }

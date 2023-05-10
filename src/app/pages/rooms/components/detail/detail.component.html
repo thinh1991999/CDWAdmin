@@ -6,47 +6,10 @@
       <h3>Images</h3>
       <mat-error *ngIf="images.errors?.length"> At least 5 pictures </mat-error>
       <div class="img-wrap">
-        <div class="wrap">
-          <button
-            *ngIf="!loadingImg"
-            class="img-add"
-            (click)="fileInput.click()"
-            type="button"
-          >
-            <mat-icon> add </mat-icon>
-            <span>Add</span>
-          </button>
-          <button
-            *ngIf="loadingImg"
-            class="img-add btn btn-loading"
-            type="button"
-          >
-            <app-loading [size]="20" [black]="true"></app-loading>
-          </button>
-          <input
-            type="file"
-            hidden
-            id="img-btn"
-            #fileInput
-            (change)="handleImg($event)"
-          />
-        </div>
         <div class="wrap" *ngFor="let img of this.images.value">
           <div class="wrap_img">
-            <app-loading
-              [size]="20"
-              *ngIf="getLoadingImgDele(img.hint)"
-              [black]="true"
-            ></app-loading>
-            <div class="img_show" *ngIf="!getLoadingImgDele(img.hint)">
+            <div class="img_show" >
               <img src="{{ img.publicUrl }}" alt="" />
-              <button
-                class="btn_dele"
-                type="button"
-                (click)="handleDeleteImg(img)"
-              >
-                <mat-icon [ngStyle]="{ color: 'red' }">delete</mat-icon>
-              </button>
             </div>
           </div>
         </div>
@@ -145,10 +108,10 @@
           <input
             matInput
             placeholder="living rooms"
-            formControlName="livingRooms"
+            formControlName="livings"
             required
           />
-          <mat-error *ngIf="livingRooms.errors?.required">
+          <mat-error *ngIf="livings.errors?.required">
             This filed is required
           </mat-error>
         </mat-form-field>
@@ -256,42 +219,13 @@
         </div>
       </div>
     </div>
-    <div class="file">
-      <button type="button" mat-raised-button (click)="fileInput.click()">
-        Choose File
-      </button>
-      <input
-        hidden
-        (change)="onFileSelected($event)"
-        #fileInput
-        type="file"
-        id="file"
-      />
-    </div>
     <div class="">
       <button
         *ngIf="!loading"
         class="form-actions__login btn btn-primary"
-        type="submit"
       >
         cancer
       </button>
-      <div class="">
-        <button
-          *ngIf="!loading"
-          class="form-actions__login btn btn-primary"
-          type="submit"
-        >
-          Add
-        </button>
-        <button
-          *ngIf="loading"
-          class="form-actions__login btn btn-primary btn-loading"
-          type="button"
-        >
-          <app-loading [size]="20"></app-loading>
-        </button>
-      </div>
     </div>
   </form>
 </div>
