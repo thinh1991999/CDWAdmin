@@ -1,0 +1,29 @@
+<app-layout>
+  <mat-toolbar class="page-header" role="heading">
+    <div class="title">
+      <h1>Rooms Booked management</h1>
+      <button
+        class="refresh"
+        mat-raised-button
+        color="accent"
+        (click)="handleRefresh()"
+        *ngIf="!loading"
+      >
+        <mat-icon> refresh </mat-icon>
+        <span>Refresh</span>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <div class="tables-wrapper">
+    <div *ngIf="loading" class="loading">
+      <app-loading [size]="80" [black]="true"></app-loading>
+    </div>
+    <app-table
+      *ngIf="!loading"
+      [amenityTableData]="amenityTableData$"
+      (triggerReload)="trigger($event)"
+    ></app-table>
+  </div>
+  <app-footer></app-footer>
+</app-layout>

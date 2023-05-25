@@ -1,0 +1,39 @@
+<div class="container text-xl">
+    <app-loading *ngIf="loading" [black]="true"></app-loading>
+    <form *ngIf="!loading" action="" [formGroup]="form" (ngSubmit)="update()">
+      <div class="box">
+          <h3>Status</h3>
+          <div class="flex">
+              <mat-radio-group aria-label="Select an option" formControlName="status">
+                <section class="w-1-2" *ngFor="let status of statusData">
+                  <mat-radio-button [value]="status" >{{status}}</mat-radio-button>
+              </section>
+              </mat-radio-group>
+            </div>
+          </div>
+            <div class="">
+        <div class="">
+          <button
+            *ngIf="!loading"
+            class="form-actions__login btn btn-primary"
+            type="submit"
+          >
+            Update
+          </button>
+          <button
+            *ngIf="loading"
+            class="form-actions__login btn btn-primary btn-loading"
+            type="button"
+          >
+            <app-loading [size]="20"></app-loading>
+          </button>
+        </div>
+        <button
+        *ngIf="!loading"
+        class="form-actions__login btn btn-primary"
+      >
+        cancer
+      </button>
+      </div>
+    </form>
+  </div>

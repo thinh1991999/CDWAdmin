@@ -3,6 +3,7 @@ export enum routes {
   TYPOGRAPHY = '/typography',
   TABLES = '/tables',
   ROOMS = '/rooms',
+  ROOMSBOOKED = '/rooms-booked',
   AMENITIES = '/amenities',
   CATEGORIES = '/categories',
   NOTIFICATION = '/notification',

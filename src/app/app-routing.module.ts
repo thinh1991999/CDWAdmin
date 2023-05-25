@@ -41,6 +41,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/rooms/rooms.module').then((m) => m.TablesModule),
   },
+  {
+    path: 'rooms-booked',
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./pages/room-booked/room-booked.module').then((m) => m.TablesModule),
+  },
   // {
   //   path: 'amenities',
   //   pathMatch: 'full',

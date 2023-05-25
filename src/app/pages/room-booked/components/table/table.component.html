@@ -1,0 +1,185 @@
+<mat-card class="employee-table-wrapper">
+  <mat-card-title class="employee-table-wrapper__header">
+    <p *ngIf="!isShowFilterInput" class="employee-table-wrapper__title">
+      Room List
+    </p>
+    <div *ngIf="isShowFilterInput" class="employee-table-wrapper__search">
+      <div class="employee-table-wrapper__icon-wrapper">
+        <mat-icon class="employee-table-wrapper__icon">search</mat-icon>
+      </div>
+      <input
+        matInput
+        class="employee-table-wrapper__search-input"
+        (keyup)="applyFilter($event)"
+      />
+      <button
+        class="employee-table-wrapper__button"
+        mat-mini-fab
+        (click)="showFilterInput()"
+      >
+        <mat-icon class="employee-table-wrapper__icon">close</mat-icon>
+      </button>
+    </div>
+    <button
+      class="employee-table-wrapper__button"
+      mat-mini-fab
+      (click)="showFilterInput()"
+    >
+      <mat-icon class="employee-table-wrapper__icon">search</mat-icon>
+    </button>
+  </mat-card-title>
+  <div class="status-search">
+    <mat-radio-group aria-label="Select an option" formControlName="status" >
+      <section class="w-1-2" >
+          <mat-radio-button [value]="" (change)="handleChange($event)">All</mat-radio-button>
+      </section>
+      <section class="w-1-2" *ngFor="let status of statusData">
+          <mat-radio-button [value]="status" (change)="handleChange($event)">{{status}}</mat-radio-button>
+      </section>
+    </mat-radio-group>
+  </div>
+  <mat-card-content class="employee-table__content">
+    <table class="employee-table__table" mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="select">
+        <th
+          class="employee-table__table-checkbox"
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          <mat-checkbox
+            color="primary"
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [aria-label]="checkboxLabel()"
+          >
+          </mat-checkbox>
+        </th>
+        <td
+          class="employee-table__table-checkbox"
+          mat-cell
+          *matCellDef="let row"
+        >
+          <mat-checkbox
+            color="primary"
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+            [aria-label]="checkboxLabel(row)"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th
+          class="employee-table__table-header"
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          User
+        </th>
+        <td
+          class="employee-table__table-body"
+          mat-cell
+          *matCellDef="let element"
+        >
+          {{ element.user.email }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <th
+          class="employee-table__table-header"
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          CheckIn
+        </th>
+        <td
+          class="employee-table__table-body"
+          mat-cell
+          *matCellDef="let element"
+        >
+          {{ formatTime(element.checkIn) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="pricePerNight">
+        <th
+          class="employee-table__table-header"
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          CheckOut
+        </th>
+        <td
+          class="employee-table__table-body"
+          mat-cell
+          *matCellDef="let element"
+        >
+          {{ formatTime(element.checkOut) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="images">
+        <th
+          class="employee-table__table-header"
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          Hotel
+        </th>
+        <td
+          class="employee-table__table-body"
+          mat-cell
+          *matCellDef="let element"
+        >
+          {{ element.room.name }}
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th
+          class="employee-table__table-header"
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          Status
+        </th>
+        <td
+          class="employee-table__table-body"
+          mat-cell
+          *matCellDef="let element"
+        >
+          {{ element.status }}
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th
+          class="employee-table__table-header"
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          Actions
+        </th>
+        <td
+          class="employee-table__table-body"
+          mat-cell
+          *matCellDef="let element"
+        >
+          <div class="btn-group">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="handleUpdateStatus(element._id)"
+            >
+              Update status
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+  <div class="pagination">
+    <mat-paginator
+      [pageSizeOptions]="[10, 15, 100]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</mat-card>

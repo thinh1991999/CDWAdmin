@@ -1,0 +1,21 @@
+.tables-wrapper {
+  padding: 0 8px;
+}
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.refresh {
+  margin-left: 5px;
+  span {
+    margin-left: 5px;
+  }
+}
