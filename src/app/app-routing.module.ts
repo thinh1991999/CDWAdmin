@@ -1,8 +1,7 @@
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { DashboardPageComponent } from './pages/dashboard/containers';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { AuthGuard } from './pages/auth/guards';
+import { AuthGuard, LoginGuard } from './pages/auth/guards';
 
 const routes: Routes = [
   {
@@ -16,7 +15,8 @@ const routes: Routes = [
     path: 'dashboard',
     pathMatch: 'full',
     canActivate: [AuthGuard],
-    component: DashboardPageComponent,
+    loadChildren: () =>
+      import('./pages/rooms/rooms.module').then((m) => m.TablesModule),
   },
   {
     path: 'typography',
@@ -46,15 +46,10 @@ const routes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard],
     loadChildren: () =>
-      import('./pages/room-booked/room-booked.module').then((m) => m.TablesModule),
+      import('./pages/room-booked/room-booked.module').then(
+        (m) => m.TablesModule
+      ),
   },
-  // {
-  //   path: 'amenities',
-  //   pathMatch: 'full',
-  //   // canActivate: [AuthGuard],
-  //   loadChildren: () =>
-  //     import('./pages/amenities/amenities.module').then((m) => m.TablesModule),
-  // },
   {
     path: 'categories',
     pathMatch: 'full',
@@ -62,23 +57,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/categories/categories.module').then(
         (m) => m.TablesModule
-      ),
-  },
-  {
-    path: 'notification',
-    pathMatch: 'full',
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./pages/notification/notification.module').then(
-        (m) => m.NotificationModule
-      ),
-  },
-  {
-    path: 'ui',
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./pages/ui-elements/ui-elements.module').then(
-        (m) => m.UiElementsModule
       ),
   },
   {

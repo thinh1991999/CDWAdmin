@@ -145,6 +145,7 @@
           class="employee-table__table-body"
           mat-cell
           *matCellDef="let element"
+          [style]="getPromoStyles(element.status )"
         >
           {{ element.status }}
       </ng-container>

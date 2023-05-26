@@ -101,6 +101,26 @@ export class RoomsTableComponent implements OnInit {
     this.dataSource = new MatTableDataSource<RoomBooked>(this.amenityTableData);
   }
 
+  getPromoStyles(status:string) {
+    switch (status) {
+      case 'DONE':
+        return 'color: blue';
+      case 'PAY_FULL':
+        return 'color: green';
+      case 'PAY_PART':
+        return 'color: yellow';
+      case 'REJECT':
+        return 'color: red';
+      case 'CANCER':
+        return 'color: orange';
+      default:
+        break;
+    }
+    // if () {
+    //   return 'background: #f4f4f4; border: 1px solid #dcdcdc';
+    // }
+  }
+
   handleUpdateStatus(id: string) {
     let dialogRef = this.modal.open(UpdateComponent, {
       data: { id },
@@ -112,13 +132,15 @@ export class RoomsTableComponent implements OnInit {
     });
   }
 
-  handleChange(e){
-    if(!e.value){
+  handleChange(e) {
+    if (!e.value) {
       this.dataSource = new MatTableDataSource<RoomBooked>(
         this.amenityTableData
       );
-    }else{
-      const newData = this.amenityTableData.filter((vl) => vl.status === e.value);
+    } else {
+      const newData = this.amenityTableData.filter(
+        (vl) => vl.status === e.value
+      );
       this.dataSource = new MatTableDataSource<RoomBooked>(newData);
     }
   }
