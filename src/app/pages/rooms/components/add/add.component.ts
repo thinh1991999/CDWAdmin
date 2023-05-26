@@ -14,6 +14,7 @@ import { Amenity } from 'src/app/pages/amenities/models';
 import { Category } from 'src/app/pages/categories/models';
 import { GlobalService } from 'src/app/services/global.service';
 import { PlaceType, PropertyType } from '../../models';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add',
@@ -42,7 +43,8 @@ export class AddComponent implements OnInit {
     private service: TablesService,
     private toastr: ToastrService,
     private global: GlobalService,
-    private zone: NgZone
+    private zone: NgZone,
+    public dialogRef: MatDialogRef<AddComponent>
   ) {}
 
   async ngOnInit() {
@@ -168,7 +170,9 @@ export class AddComponent implements OnInit {
     }
     return true;
   }
-
+  public handleClose() {
+    this.dialogRef.close();
+  }
   getLoadingImgDele(hint: string) {
     return this.loadingImgsDelete.includes(hint);
   }
@@ -311,6 +315,7 @@ export class AddComponent implements OnInit {
           this.clear();
           this.toastr.success('Add room successful');
           this.loading = false;
+          this.dialogRef.close({ event: 'RELOAD', data: true });
         })
         .catch((err) => {
           this.toastr.success('Something error');

@@ -65,7 +65,7 @@ export class UpdateComponent implements OnInit {
           bedrooms,
           beds,
           baths,
-          livings,
+          livingRooms,
           propertyType,
           placeType,
           amenities,
@@ -73,19 +73,19 @@ export class UpdateComponent implements OnInit {
           location: { coordinates, address },
           images,
         } = res.data.room as RoomDetail;
-        
+
         this.form = new FormGroup({
-          name: new FormControl(name,[Validators.required]),
-          description: new FormControl(description,[Validators.required]),
-          pricePerNight: new FormControl(pricePerNight,[Validators.required]),
-          guests: new FormControl(guests,[Validators.required]),
-          bedrooms: new FormControl(bedrooms,[Validators.required]),
-          livings: new FormControl(livings,[Validators.required]),
-          beds: new FormControl(beds,[Validators.required]),
-          baths: new FormControl(baths,[Validators.required]),
-          latitude: new FormControl(coordinates[0],[Validators.required]),
-          longitude: new FormControl(coordinates[1],[Validators.required]),
-          address: new FormControl(address,[Validators.required]),
+          name: new FormControl(name, [Validators.required]),
+          description: new FormControl(description, [Validators.required]),
+          pricePerNight: new FormControl(pricePerNight, [Validators.required]),
+          guests: new FormControl(guests, [Validators.required]),
+          bedrooms: new FormControl(bedrooms, [Validators.required]),
+          livingRooms: new FormControl(livingRooms, [Validators.required]),
+          beds: new FormControl(beds, [Validators.required]),
+          baths: new FormControl(baths, [Validators.required]),
+          latitude: new FormControl(coordinates[0], [Validators.required]),
+          longitude: new FormControl(coordinates[1], [Validators.required]),
+          address: new FormControl(address, [Validators.required]),
           amenities: new FormControl(amenities || [], null),
           categories: new FormControl(categories || [], null),
           placeType: new FormControl(placeType || null, null),
@@ -127,8 +127,8 @@ export class UpdateComponent implements OnInit {
   get address(): AbstractControl {
     return this.form.get('address');
   }
-  get livings(): AbstractControl {
-    return this.form.get('livings');
+  get livingRooms(): AbstractControl {
+    return this.form.get('livingRooms');
   }
   get propertyType(): AbstractControl {
     return this.form.get('propertyType');
@@ -277,7 +277,7 @@ export class UpdateComponent implements OnInit {
     this.pricePerNight.setValue('');
     this.guests.setValue('');
     this.bedrooms.setValue('');
-    this.livings.setValue('');
+    this.livingRooms.setValue('');
     this.beds.setValue('');
     this.baths.setValue('');
     this.latitude.setValue('');
@@ -292,11 +292,10 @@ export class UpdateComponent implements OnInit {
   public add(): void {
     if (this.form.valid && this.checkAmenAndCate() && this.checkErrorImages()) {
       this.loading = true;
-      console.log(this.form.value);
       this.service
-        .updateRoom(this.form.value,this.data.id)
+        .updateRoom({ ...this.form.value }, this.data.id)
         .then((res) => {
-          this.dialogRef.close({event:"RELOAD",data:true});
+          this.dialogRef.close({ event: 'RELOAD', data: true });
           this.toastr.success('Update room successful');
           this.loading = false;
         })
@@ -305,6 +304,10 @@ export class UpdateComponent implements OnInit {
           this.loading = false;
         });
     }
+  }
+
+  public  handleClose(){
+   this.dialogRef.close();
   }
 
   public async fetch() {

@@ -31,7 +31,9 @@ export class TablesPageComponent {
   openAddModal(): void {
     const dialogRef = this.addUsermodal.open(AddComponent);
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      if (result.event === 'RELOAD') {
+       this.reload();
+      }
     });
   }
   reload() {

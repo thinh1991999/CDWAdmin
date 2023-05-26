@@ -145,10 +145,10 @@
             <input
               matInput
               placeholder="living rooms"
-              formControlName="livings"
+              formControlName="livingRooms"
               required
             />
-            <mat-error *ngIf="livings.errors?.required">
+            <mat-error *ngIf="livingRooms.errors?.required">
               This filed is required
             </mat-error>
           </mat-form-field>
@@ -199,7 +199,7 @@
             <mat-select
               placeholder="Property type"
               formControlName="propertyType"
-              
+
             >
               <mat-option *ngFor="let item of propertyArr" [value]="item._id">{{
                 item.name
@@ -217,7 +217,7 @@
           </mat-form-field>
         </div>
       </div>
-  
+
       <div class="box">
         <h3>Amenities</h3>
         <mat-error *ngIf="amenities.errors?.length">
@@ -257,7 +257,7 @@
           </div>
         </div>
       </div>
-      <div class="file">
+      <!-- <div class="file">
         <button type="button" mat-raised-button (click)="fileInput.click()">
           Choose File
         </button>
@@ -268,7 +268,7 @@
           type="file"
           id="file"
         />
-      </div>
+      </div> -->
       <div class="">
         <div class="">
           <button
@@ -288,11 +288,12 @@
         </div>
         <button
         *ngIf="!loading"
-        class="form-actions__login btn btn-primary"
+        class="btn btn-cancer"
+        type="button"
+        (click)="handleClose()"
       >
         cancer
       </button>
       </div>
     </form>
   </div>
-  
