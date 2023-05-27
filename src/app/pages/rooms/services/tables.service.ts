@@ -30,14 +30,14 @@ export class TablesService {
     });
   }
 
-  public updateRoom(data: Add,id:string): Promise<any> {
+  public updateRoom(data: Add, id: string): Promise<any> {
     return this.axios.put('/room/update', data, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
-      params:{
-        id
-      }
+      params: {
+        id,
+      },
     });
   }
 
@@ -51,6 +51,17 @@ export class TablesService {
 
   public getRooms(): Promise<any> {
     return this.axios.get('/room/all');
+  }
+
+  public deleteRoom(id: string): Promise<any> {
+    return this.axios.delete('/room/delete', {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+      params: {
+        id,
+      },
+    });
   }
 
   public getCategories(): Promise<any> {

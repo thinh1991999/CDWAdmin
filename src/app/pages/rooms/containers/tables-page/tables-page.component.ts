@@ -32,7 +32,7 @@ export class TablesPageComponent {
     const dialogRef = this.addUsermodal.open(AddComponent);
     dialogRef.afterClosed().subscribe((result) => {
       if (result.event === 'RELOAD') {
-       this.reload();
+        this.reload();
       }
     });
   }
@@ -53,6 +53,8 @@ export class TablesPageComponent {
     this.reload();
   }
   trigger(status: boolean) {
+    console.log(status);
+
     if (status) {
       this.reload();
     }

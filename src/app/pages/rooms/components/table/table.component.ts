@@ -97,14 +97,13 @@ export class RoomsTableComponent implements OnInit {
   }
 
   handleUpdate(id: string) {
-    let dialogRef =this.modal.open(UpdateComponent, {
-      data: { id, triggerReload:this.triggerReload },
+    let dialogRef = this.modal.open(UpdateComponent, {
+      data: { id, triggerReload: this.triggerReload },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if(result.event==="RELOAD"){
-        this.triggerReload.emit(result.data)
+      if (result.event === 'RELOAD') {
+        this.triggerReload.emit(result.data);
       }
-      
     });
   }
 
@@ -116,23 +115,20 @@ export class RoomsTableComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      // if (result === true) {
-      //   this.loadings.push(id);
-      //   this.service
-      //     .deleteCategory(id)
-      //     .then((res) => {
-      //       this.toast.success('Delete category successful');
-      //       this.triggerReload.emit(true);
-      //     })
-      //     .catch((err) => {
-      //       this.toast.error('Something error, try again');
-      //     });
-      //   // this.triggerReload.emit(true);
-      // }
+      if (result === true) {
+        this.loadings.push(id);
+        this.service
+          .deleteRoom(id)
+          .then((res) => {
+            this.toast.success('Delete Room successful');
+            this.triggerReload.emit(true);
+          })
+          .catch((err) => {
+            this.toast.error('Something error, try again');
+          });
+      }
     });
   }
 
-  handleReloadMainData(status:boolean){
-    
-  }
+  handleReloadMainData(status: boolean) {}
 }
